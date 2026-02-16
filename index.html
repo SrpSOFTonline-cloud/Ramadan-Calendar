@@ -13,16 +13,47 @@
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:#0f172a;
 color:white;
 overflow-x:hidden;
+
+/* BACKGROUND IMAGE */
+background:url('bg.jpg') no-repeat center center fixed;
+background-size:cover;
 }
 
+/* DARK MODE */
+.dark-theme{
+background:#0f172a !important;
+background-image:none !important;
+color:white;
+}
+
+/* LIGHT MODE */
+.light-theme{
+background:#f5f5f5;
+color:#000;
+}
+
+/* ===== CONTAINER ===== */
 .container{
 width:100%;
 max-width:1200px;
 margin:auto;
 padding:10px;
+}
+
+/* ===== DARK BUTTON ===== */
+.darktheme{
+width:40px;
+height:40px;
+border-radius:50%;
+background:#fff;
+cursor:pointer;
+position:fixed;
+top:15px;
+right:15px;
+z-index:999;
+box-shadow:0 0 10px rgba(0,0,0,.4);
 }
 
 /* ===== HERO ===== */
@@ -38,7 +69,7 @@ flex:1 1 320px;
 }
 
 .ramadan-time{
-background:#1e293b;
+background:rgba(0,0,0,0.6);
 padding:15px;
 border-radius:10px;
 }
@@ -53,14 +84,14 @@ overflow-x:auto;
 
 table{
 width:100%;
-min-width:650px;   /* mobile scroll */
+min-width:650px;
 border-collapse:collapse;
-background:#1e293b;
+background:rgba(0,0,0,0.6);
 }
 
 th,td{
 padding:10px;
-border:1px solid #334155;
+border:1px solid #444;
 text-align:center;
 white-space:nowrap;
 }
@@ -74,10 +105,12 @@ background:#334155;
 text-align:center;
 padding:20px;
 font-size:14px;
+background:rgba(0,0,0,0.5);
+margin-top:20px;
 }
 
 /* ===== MOBILE ===== */
-@media (max-width:768px){
+@media(max-width:768px){
 
 h1{
 font-size:22px;
@@ -107,23 +140,21 @@ padding:8px;
 }
 }
 
-@media (max-width:480px){
-
+@media(max-width:480px){
 h1{font-size:20px;}
-
 table{font-size:12px;}
-
 th,td{padding:6px;}
 }
 
 </style>
 </head>
 
-<body>
+<body class="light-theme">
+
+<div class="darktheme" id="themeBtn"></div>
 
 <div class="hero-box">
 <div class="container">
-<div class="darktheme"></div>
 
 <div class="hero-wrapper">
 
@@ -157,19 +188,13 @@ th,td{padding:6px;}
 
 <div class="ramadan-date">
 <div class="container">
-<div class="date-wrapper">
-
 <div class="date-table">
+
 <h2>Ramadan 30 Days Calendar</h2>
 
 <table id="ramadanTable">
 <tr>
-<th>Ramadan</th>
-<th>Date</th>
-<th>Day</th>
-<th>Sehri</th>
-<th>Sunrise</th>
-<th>Ifter</th>
+<th>Ramadan</th><th>Date</th><th>Day</th><th>Sehri</th><th>Sunrise</th><th>Ifter</th>
 </tr>
 
 <tr><td>01</td><td>19 Feb 2026</td><td>Thu</td><td>05:05</td><td>06:26</td><td>18:02</td></tr>
@@ -202,9 +227,8 @@ th,td{padding:6px;}
 <tr><td>28</td><td>18 Mar 2026</td><td>Wed</td><td>04:38</td><td>05:59</td><td>18:16</td></tr>
 <tr><td>29</td><td>19 Mar 2026</td><td>Thu</td><td>04:37</td><td>05:58</td><td>18:16</td></tr>
 <tr><td>30</td><td>20 Mar 2026</td><td>Fri</td><td>04:36</td><td>05:57</td><td>18:17</td></tr>
-
 </table>
-</div>
+
 </div>
 </div>
 </div>
@@ -217,6 +241,7 @@ th,td{padding:6px;}
 </div>
 
 <script>
+// DIGITAL CLOCK
 function updateClock(){
  document.getElementById("digitalClock").innerHTML =
  new Date().toLocaleTimeString('en-US',{hour12:true});
@@ -224,6 +249,7 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
+// DATE TIME
 function updateDateTime(){
  const now = new Date();
  document.getElementById("datetime").innerHTML =
@@ -234,25 +260,12 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
-const rows=document.querySelectorAll("#ramadanTable tr");
-let today=new Date().toDateString();
-
-rows.forEach(r=>{
- if(r.children.length>1){
-   let d=new Date(r.children[1].innerText).toDateString();
-   if(d===today){
-     r.style.background="#22c55e";
-     r.style.color="#000";
-     document.getElementById("todayRoza").innerText=r.children[0].innerText;
-     document.getElementById("sehriTime").innerText="- "+r.children[3].innerText;
-     document.getElementById("sunriseTime").innerText="- "+r.children[4].innerText;
-     document.getElementById("ifterTime").innerText="- "+r.children[5].innerText;
-   }
- }
-});
+// DARK MODE TOGGLE
+document.getElementById("themeBtn").onclick=function(){
+ document.body.classList.toggle("dark-theme");
+ document.body.classList.toggle("light-theme");
+}
 </script>
 
 </body>
 </html>
-
-
