@@ -1,140 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Auto Ramadan Calendar</title>
+<title>Ramadan Calendar</title>
 <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
 </head>
 
 <body>
 
-<div class="hero-box">
-<div class="container">
+<div class="app">
 
-<div class="darktheme"></div>
+<h1>🌙 রমজান ক্যালেন্ডার</h1>
+<p id="todayDate"></p>
 
-<div class="hero-wrapper">
-<div class="ramadan-text">
-<h1>Ramadan Kareem</h1>
-<span>Auto Sehri & Iftar Time (API)</span>
-<p>Ramadan calendar auto update every year.</p>
+<div class="today-box">
+<h3>আজকের সময়সূচি</h3>
+<p>সেহরি: <span id="sehri">--</span></p>
+<p>ইফতার: <span id="iftar">--</span></p>
+<p id="countdown">⏳ লোড হচ্ছে...</p>
 </div>
 
-<div class="ramadan-time">
-<h4>Today's Date</h4>
-<p id="datetime"></p>
-</div>
-</div>
-
-</div>
-</div>
-
-<div class="ramadan-date">
-<div class="container">
-<div class="date-table">
-
-<h2>Ramadan Calendar (Auto)</h2>
+<h3>রমজান ক্যালেন্ডার</h3>
 
 <table>
 <thead>
 <tr>
-<th>Ramadan</th>
-<th>Date</th>
-<th>Day</th>
-<th>Sehri (Fajr)</th>
-<th>Sunrise</th>
-<th>Iftar (Maghrib)</th>
+<th>রোজা</th>
+<th>তারিখ</th>
+<th>বার</th>
+<th>সেহরি</th>
+<th>ইফতার</th>
 </tr>
 </thead>
 
 <tbody id="ramadanTable">
-<tr>
-<td colspan="6">Loading Ramadan data...</td>
-</tr>
+<tr><td colspan="5">লোড হচ্ছে...</td></tr>
 </tbody>
-
 </table>
-</div>
-</div>
+
 </div>
 
 <script>
-// Dark mode
-var button = document.querySelector(".darktheme");
-button.onclick = function(){
- button.classList.toggle("active");
- document.body.classList.toggle("dark-theme-color");
-}
-
-// Live datetime
-var dt = new Date();
-document.getElementById("datetime").innerHTML =
-dt.toLocaleString();
-
-
-// ===== AUTO RAMADAN API =====
 const year = new Date().getFullYear();
+document.getElementById("todayDate").innerHTML =
+new Date().toLocaleDateString("bn-BD");
 
-// Ramadan usually starts Feb or Mar
 async function loadRamadan(){
-    const url =
+
+const url =
 `https://api.aladhan.com/v1/calendarByCity?city=Dhaka&country=Bangladesh&method=1&month=2&year=${year}`;
 
-    const res = await fetch(url);
-    const data = await res.json();
+const res = await fetch(url);
+const data = await res.json();
 
-    const table = document.getElementById("ramadanTable");
-    table.innerHTML = "";
+const table = document.getElementById("ramadanTable");
+table.innerHTML = "";
 
-    let count = 0;
+let count = 0;
+let today = new Date().toDateString();
 
-    data.data.forEach(day => {
+data.data.forEach(day => {
 
-        if(day.date.hijri.month.en === "Ramadan"){
-            count++;
+if(day.date.hijri.month.en === "Ramadan"){
+count++;
 
-            const row = `
-            <tr>
-                <td>${count} Ramadan</td>
-                <td>${day.date.gregorian.date}</td>
-                <td>${day.date.gregorian.weekday.en}</td>
-                <td>${day.timings.Fajr.split(" ")[0]}</td>
-                <td>${day.timings.Sunrise.split(" ")[0]}</td>
-                <td>${day.timings.Maghrib.split(" ")[0]}</td>
-            </tr>
-            `;
+let isToday =
+new Date(day.date.gregorian.date).toDateString() === today;
 
-            table.innerHTML += row;
-        }
-    });
+let row = `
+<tr ${isToday ? 'class="today-row"' : ''}>
+<td>${count}</td>
+<td>${day.date.gregorian.date}</td>
+<td>${day.date.gregorian.weekday.ar}</td>
+<td>${day.timings.Fajr.split(" ")[0]}</td>
+<td>${day.timings.Maghrib.split(" ")[0]}</td>
+</tr>`;
 
-    // যদি February তে Ramadan না থাকে তাহলে March check
-    if(count === 0){
-        const res2 = await fetch(
-`https://api.aladhan.com/v1/calendarByCity?city=Dhaka&country=Bangladesh&method=1&month=3&year=${year}`
-        );
-        const data2 = await res2.json();
+table.innerHTML += row;
 
-        data2.data.forEach(day=>{
-            if(day.date.hijri.month.en === "Ramadan"){
-                count++;
-                table.innerHTML += `
-                <tr>
-                  <td>${count} Ramadan</td>
-                  <td>${day.date.gregorian.date}</td>
-                  <td>${day.date.gregorian.weekday.en}</td>
-                  <td>${day.timings.Fajr.split(" ")[0]}</td>
-                  <td>${day.timings.Sunrise.split(" ")[0]}</td>
-                  <td>${day.timings.Maghrib.split(" ")[0]}</td>
-                </tr>`;
-            }
-        });
-    }
+if(isToday){
+document.getElementById("sehri").innerText =
+day.timings.Fajr.split(" ")[0];
+document.getElementById("iftar").innerText =
+day.timings.Maghrib.split(" ")[0];
+
+startCountdown(day.timings.Maghrib.split(" ")[0]);
+}
+}
+});
+}
+
+function startCountdown(iftarTime){
+const cd = document.getElementById("countdown");
+
+setInterval(()=>{
+let now = new Date();
+
+let [h,m] = iftarTime.split(":");
+let iftar = new Date();
+iftar.setHours(h,m,0);
+
+let diff = iftar - now;
+
+if(diff <= 0){
+cd.innerText = "🌙 ইফতারের সময় হয়ে গেছে!";
+return;
+}
+
+let hrs = Math.floor(diff/1000/60/60);
+let mins = Math.floor((diff/1000/60)%60);
+let secs = Math.floor((diff/1000)%60);
+
+cd.innerText =
+`⏳ ইফতার বাকি: ${hrs}ঘ ${mins}মিনিট ${secs}সেকেন্ড`;
+},1000);
 }
 
 loadRamadan();
+
+
+// PWA service worker
+if ("serviceWorker" in navigator) {
+navigator.serviceWorker.register("sw.js");
+}
 </script>
 
 </body>
 </html>
+
