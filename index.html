@@ -16,22 +16,22 @@ font-family:Arial,sans-serif;
 color:white;
 overflow-x:hidden;
 
-/* BACKGROUND IMAGE */
+/* YOUR BACKGROUND IMAGE */
 background:url('bg.jpg') no-repeat center center fixed;
 background-size:cover;
 }
 
-/* DARK MODE */
-.dark-theme{
-background:#0f172a !important;
-background-image:none !important;
+/* LIGHT / DARK MODE */
+.light-theme{
+background:url('bg.jpg') no-repeat center center fixed;
+background-size:cover;
 color:white;
 }
 
-/* LIGHT MODE */
-.light-theme{
-background:#f5f5f5;
-color:#000;
+.dark-theme{
+background:#0f172a;
+background-image:none;
+color:white;
 }
 
 /* ===== CONTAINER ===== */
@@ -42,16 +42,16 @@ margin:auto;
 padding:10px;
 }
 
-/* ===== DARK BUTTON ===== */
+/* ===== THEME BUTTON ===== */
 .darktheme{
 width:40px;
 height:40px;
 border-radius:50%;
 background:#fff;
-cursor:pointer;
 position:fixed;
 top:15px;
 right:15px;
+cursor:pointer;
 z-index:999;
 box-shadow:0 0 10px rgba(0,0,0,.4);
 }
@@ -77,7 +77,6 @@ border-radius:10px;
 /* ===== TABLE ===== */
 .date-table{
 margin-top:20px;
-width:100%;
 overflow-x:auto;
 -webkit-overflow-scrolling:touch;
 }
@@ -111,33 +110,12 @@ margin-top:20px;
 
 /* ===== MOBILE ===== */
 @media(max-width:768px){
-
-h1{
-font-size:22px;
-text-align:center;
-}
-
-.hero-wrapper{
-flex-direction:column;
-}
-
-.ramadan-text,
-.ramadan-time{
-width:100%;
-}
-
-#digitalClock{
-text-align:center;
-font-size:20px;
-}
-
-table{
-font-size:13px;
-}
-
-th,td{
-padding:8px;
-}
+h1{font-size:22px;text-align:center;}
+.hero-wrapper{flex-direction:column;}
+.ramadan-text,.ramadan-time{width:100%;}
+#digitalClock{text-align:center;font-size:20px;}
+table{font-size:13px;}
+th,td{padding:8px;}
 }
 
 @media(max-width:480px){
@@ -162,7 +140,6 @@ th,td{padding:6px;}
 <h1>Ramadan Kareem</h1>
 <span>Sahri and Iftar Time Schedule</span>
 <p>Ramadan Calendar 2026</p>
-
 <h2 id="digitalClock"></h2>
 </div>
 
@@ -197,36 +174,38 @@ th,td{padding:6px;}
 <th>Ramadan</th><th>Date</th><th>Day</th><th>Sehri</th><th>Sunrise</th><th>Ifter</th>
 </tr>
 
-<tr><td>01</td><td>19 Feb 2026</td><td>Thu</td><td>05:05</td><td>06:26</td><td>18:02</td></tr>
-<tr><td>02</td><td>20 Feb 2026</td><td>Fri</td><td>05:04</td><td>06:25</td><td>18:03</td></tr>
-<tr><td>03</td><td>21 Feb 2026</td><td>Sat</td><td>05:03</td><td>06:24</td><td>18:03</td></tr>
-<tr><td>04</td><td>22 Feb 2026</td><td>Sun</td><td>05:02</td><td>06:23</td><td>18:04</td></tr>
-<tr><td>05</td><td>23 Feb 2026</td><td>Mon</td><td>05:01</td><td>06:22</td><td>18:04</td></tr>
-<tr><td>06</td><td>24 Feb 2026</td><td>Tue</td><td>05:00</td><td>06:21</td><td>18:05</td></tr>
-<tr><td>07</td><td>25 Feb 2026</td><td>Wed</td><td>04:59</td><td>06:20</td><td>18:05</td></tr>
-<tr><td>08</td><td>26 Feb 2026</td><td>Thu</td><td>04:58</td><td>06:19</td><td>18:06</td></tr>
-<tr><td>09</td><td>27 Feb 2026</td><td>Fri</td><td>04:57</td><td>06:18</td><td>18:06</td></tr>
-<tr><td>10</td><td>28 Feb 2026</td><td>Sat</td><td>04:56</td><td>06:17</td><td>18:07</td></tr>
-<tr><td>11</td><td>01 Mar 2026</td><td>Sun</td><td>04:55</td><td>06:16</td><td>18:07</td></tr>
-<tr><td>12</td><td>02 Mar 2026</td><td>Mon</td><td>04:54</td><td>06:15</td><td>18:08</td></tr>
-<tr><td>13</td><td>03 Mar 2026</td><td>Tue</td><td>04:53</td><td>06:14</td><td>18:08</td></tr>
-<tr><td>14</td><td>04 Mar 2026</td><td>Wed</td><td>04:52</td><td>06:13</td><td>18:09</td></tr>
-<tr><td>15</td><td>05 Mar 2026</td><td>Thu</td><td>04:51</td><td>06:12</td><td>18:09</td></tr>
-<tr><td>16</td><td>06 Mar 2026</td><td>Fri</td><td>04:50</td><td>06:11</td><td>18:10</td></tr>
-<tr><td>17</td><td>07 Mar 2026</td><td>Sat</td><td>04:49</td><td>06:10</td><td>18:10</td></tr>
-<tr><td>18</td><td>08 Mar 2026</td><td>Sun</td><td>04:48</td><td>06:09</td><td>18:11</td></tr>
-<tr><td>19</td><td>09 Mar 2026</td><td>Mon</td><td>04:47</td><td>06:08</td><td>18:11</td></tr>
-<tr><td>20</td><td>10 Mar 2026</td><td>Tue</td><td>04:46</td><td>06:07</td><td>18:12</td></tr>
-<tr><td>21</td><td>11 Mar 2026</td><td>Wed</td><td>04:45</td><td>06:06</td><td>18:12</td></tr>
-<tr><td>22</td><td>12 Mar 2026</td><td>Thu</td><td>04:44</td><td>06:05</td><td>18:13</td></tr>
-<tr><td>23</td><td>13 Mar 2026</td><td>Fri</td><td>04:43</td><td>06:04</td><td>18:13</td></tr>
-<tr><td>24</td><td>14 Mar 2026</td><td>Sat</td><td>04:42</td><td>06:03</td><td>18:14</td></tr>
-<tr><td>25</td><td>15 Mar 2026</td><td>Sun</td><td>04:41</td><td>06:02</td><td>18:14</td></tr>
-<tr><td>26</td><td>16 Mar 2026</td><td>Mon</td><td>04:40</td><td>06:01</td><td>18:15</td></tr>
-<tr><td>27</td><td>17 Mar 2026</td><td>Tue</td><td>04:39</td><td>06:00</td><td>18:15</td></tr>
-<tr><td>28</td><td>18 Mar 2026</td><td>Wed</td><td>04:38</td><td>05:59</td><td>18:16</td></tr>
-<tr><td>29</td><td>19 Mar 2026</td><td>Thu</td><td>04:37</td><td>05:58</td><td>18:16</td></tr>
-<tr><td>30</td><td>20 Mar 2026</td><td>Fri</td><td>04:36</td><td>05:57</td><td>18:17</td></tr>
+<tr><td>01</td><td>19 Feb 2026</td><td>Thu</td><td>5:05 AM</td><td>6:26 AM</td><td>6:02 PM</td></tr>
+<tr><td>02</td><td>20 Feb 2026</td><td>Fri</td><td>5:04 AM</td><td>6:25 AM</td><td>6:03 PM</td></tr>
+<tr><td>03</td><td>21 Feb 2026</td><td>Sat</td><td>5:03 AM</td><td>6:24 AM</td><td>6:03 PM</td></tr>
+<tr><td>04</td><td>22 Feb 2026</td><td>Sun</td><td>5:02 AM</td><td>6:23 AM</td><td>6:04 PM</td></tr>
+<tr><td>05</td><td>23 Feb 2026</td><td>Mon</td><td>5:01 AM</td><td>6:22 AM</td><td>6:04 PM</td></tr>
+<tr><td>06</td><td>24 Feb 2026</td><td>Tue</td><td>5:00 AM</td><td>6:21 AM</td><td>6:05 PM</td></tr>
+<tr><td>07</td><td>25 Feb 2026</td><td>Wed</td><td>4:59 AM</td><td>6:20 AM</td><td>6:05 PM</td></tr>
+<tr><td>08</td><td>26 Feb 2026</td><td>Thu</td><td>4:58 AM</td><td>6:19 AM</td><td>6:06 PM</td></tr>
+<tr><td>09</td><td>27 Feb 2026</td><td>Fri</td><td>4:57 AM</td><td>6:18 AM</td><td>6:06 PM</td></tr>
+<tr><td>10</td><td>28 Feb 2026</td><td>Sat</td><td>4:56 AM</td><td>6:17 AM</td><td>6:07 PM</td></tr>
+
+<tr><td>11</td><td>01 Mar 2026</td><td>Sun</td><td>4:55 AM</td><td>6:16 AM</td><td>6:07 PM</td></tr>
+<tr><td>12</td><td>02 Mar 2026</td><td>Mon</td><td>4:54 AM</td><td>6:15 AM</td><td>6:08 PM</td></tr>
+<tr><td>13</td><td>03 Mar 2026</td><td>Tue</td><td>4:53 AM</td><td>6:14 AM</td><td>6:08 PM</td></tr>
+<tr><td>14</td><td>04 Mar 2026</td><td>Wed</td><td>4:52 AM</td><td>6:13 AM</td><td>6:09 PM</td></tr>
+<tr><td>15</td><td>05 Mar 2026</td><td>Thu</td><td>4:51 AM</td><td>6:12 AM</td><td>6:09 PM</td></tr>
+<tr><td>16</td><td>06 Mar 2026</td><td>Fri</td><td>4:50 AM</td><td>6:11 AM</td><td>6:10 PM</td></tr>
+<tr><td>17</td><td>07 Mar 2026</td><td>Sat</td><td>4:49 AM</td><td>6:10 AM</td><td>6:10 PM</td></tr>
+<tr><td>18</td><td>08 Mar 2026</td><td>Sun</td><td>4:48 AM</td><td>6:09 AM</td><td>6:11 PM</td></tr>
+<tr><td>19</td><td>09 Mar 2026</td><td>Mon</td><td>4:47 AM</td><td>6:08 AM</td><td>6:11 PM</td></tr>
+<tr><td>20</td><td>10 Mar 2026</td><td>Tue</td><td>4:46 AM</td><td>6:07 AM</td><td>6:12 PM</td></tr>
+
+<tr><td>21</td><td>11 Mar 2026</td><td>Wed</td><td>4:45 AM</td><td>6:06 AM</td><td>6:12 PM</td></tr>
+<tr><td>22</td><td>12 Mar 2026</td><td>Thu</td><td>4:44 AM</td><td>6:05 AM</td><td>6:13 PM</td></tr>
+<tr><td>23</td><td>13 Mar 2026</td><td>Fri</td><td>4:43 AM</td><td>6:04 AM</td><td>6:13 PM</td></tr>
+<tr><td>24</td><td>14 Mar 2026</td><td>Sat</td><td>4:42 AM</td><td>6:03 AM</td><td>6:14 PM</td></tr>
+<tr><td>25</td><td>15 Mar 2026</td><td>Sun</td><td>4:41 AM</td><td>6:02 AM</td><td>6:14 PM</td></tr>
+<tr><td>26</td><td>16 Mar 2026</td><td>Mon</td><td>4:40 AM</td><td>6:01 AM</td><td>6:15 PM</td></tr>
+<tr><td>27</td><td>17 Mar 2026</td><td>Tue</td><td>4:39 AM</td><td>6:00 AM</td><td>6:15 PM</td></tr>
+<tr><td>28</td><td>18 Mar 2026</td><td>Wed</td><td>4:38 AM</td><td>5:59 AM</td><td>6:16 PM</td></tr>
+<tr><td>29</td><td>19 Mar 2026</td><td>Thu</td><td>4:37 AM</td><td>5:58 AM</td><td>6:16 PM</td></tr>
+<tr><td>30</td><td>20 Mar 2026</td><td>Fri</td><td>4:36 AM</td><td>5:57 AM</td><td>6:17 PM</td></tr>
 </table>
 
 </div>
@@ -234,38 +213,40 @@ th,td{padding:6px;}
 </div>
 
 <div class="developer">
-<b>App Developer:</b> md.shovon<br>
+<b>App Developer:</b> Md.Shovon<br>
 <b>Tel:</b> +88096060547<br>
 <b>Developer Company:</b> srp soft.ltd<br>
 <b>Sponsor:</b> sreenagar rokter bondhon
 </div>
 
 <script>
-// DIGITAL CLOCK
+// DIGITAL CLOCK AM/PM
 function updateClock(){
- document.getElementById("digitalClock").innerHTML =
- new Date().toLocaleTimeString('en-US',{hour12:true});
+document.getElementById("digitalClock").innerHTML =
+new Date().toLocaleTimeString('en-US',{hour12:true});
 }
 setInterval(updateClock,1000);
 updateClock();
 
 // DATE TIME
 function updateDateTime(){
- const now = new Date();
- document.getElementById("datetime").innerHTML =
- now.toLocaleString('en-US',{hour12:true});
- document.getElementById("todayDateOnly").innerHTML =
- now.toDateString();
+const now=new Date();
+document.getElementById("datetime").innerHTML =
+now.toLocaleString('en-US',{hour12:true});
+document.getElementById("todayDateOnly").innerHTML =
+now.toDateString();
 }
 setInterval(updateDateTime,1000);
 updateDateTime();
 
 // DARK MODE TOGGLE
 document.getElementById("themeBtn").onclick=function(){
- document.body.classList.toggle("dark-theme");
- document.body.classList.toggle("light-theme");
-}
+document.body.classList.toggle("dark-theme");
+document.body.classList.toggle("light-theme");
+};
 </script>
 
 </body>
 </html>
+
+
