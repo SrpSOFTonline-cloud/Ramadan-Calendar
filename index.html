@@ -4,7 +4,119 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ramadan Calendar 2026</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+
+/* ===== BASIC ===== */
+*{box-sizing:border-box;}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#0f172a;
+color:white;
+overflow-x:hidden;
+}
+
+.container{
+width:100%;
+max-width:1200px;
+margin:auto;
+padding:10px;
+}
+
+/* ===== HERO ===== */
+.hero-wrapper{
+display:flex;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.ramadan-text,
+.ramadan-time{
+flex:1 1 320px;
+}
+
+.ramadan-time{
+background:#1e293b;
+padding:15px;
+border-radius:10px;
+}
+
+/* ===== TABLE ===== */
+.date-table{
+margin-top:20px;
+width:100%;
+overflow-x:auto;
+-webkit-overflow-scrolling:touch;
+}
+
+table{
+width:100%;
+min-width:650px;   /* mobile scroll */
+border-collapse:collapse;
+background:#1e293b;
+}
+
+th,td{
+padding:10px;
+border:1px solid #334155;
+text-align:center;
+white-space:nowrap;
+}
+
+th{
+background:#334155;
+}
+
+/* ===== DEVELOPER ===== */
+.developer{
+text-align:center;
+padding:20px;
+font-size:14px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width:768px){
+
+h1{
+font-size:22px;
+text-align:center;
+}
+
+.hero-wrapper{
+flex-direction:column;
+}
+
+.ramadan-text,
+.ramadan-time{
+width:100%;
+}
+
+#digitalClock{
+text-align:center;
+font-size:20px;
+}
+
+table{
+font-size:13px;
+}
+
+th,td{
+padding:8px;
+}
+}
+
+@media (max-width:480px){
+
+h1{font-size:20px;}
+
+table{font-size:12px;}
+
+th,td{padding:6px;}
+}
+
+</style>
 </head>
 
 <body>
