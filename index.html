@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadan Calendar 2026</title>
+<title>Auto Ramadan Calendar</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,119 +11,129 @@
 
 <div class="hero-box">
 <div class="container">
+
 <div class="darktheme"></div>
 
 <div class="hero-wrapper">
 <div class="ramadan-text">
 <h1>Ramadan Kareem</h1>
-<span>Sahri and Iftar Time Schedule</span>
-<p>Ramadan Calendar 2026</p>
+<span>Auto Sehri & Iftar Time (API)</span>
+<p>Ramadan calendar auto update every year.</p>
 </div>
 
 <div class="ramadan-time">
-<h4>Today's schedule</h4>
-<div>
-<span><b>01</b> Ramadan</span>
-<p>Date/Time: <span id="datetime"></span></p>
+<h4>Today's Date</h4>
+<p id="datetime"></p>
+</div>
 </div>
 
-<ul>
-<li>sehri <b>- 04:55 AM</b></li>
-<li>sunrise <b>- 06:20 AM</b></li>
-<li>ifter <b>- 06:10 PM</b></li>
-</ul>
-</div>
-</div>
 </div>
 </div>
 
 <div class="ramadan-date">
 <div class="container">
-<div class="date-wrapper">
-
-<!-- FIRST 10 DAYS -->
 <div class="date-table">
-<h2>Rahmat 10 Days</h2>
+
+<h2>Ramadan Calendar (Auto)</h2>
+
 <table>
+<thead>
 <tr>
-<th>Ramadan</th><th>Date</th><th>Day</th><th>Sehri</th><th>Sunrise</th><th>Ifter</th>
+<th>Ramadan</th>
+<th>Date</th>
+<th>Day</th>
+<th>Sehri (Fajr)</th>
+<th>Sunrise</th>
+<th>Iftar (Maghrib)</th>
 </tr>
+</thead>
 
-<tr><td>01 Ramadan</td><td>19 Feb 2026</td><td>Thursday</td><td>05:05</td><td>06:26</td><td>18:02</td></tr>
-<tr><td>02 Ramadan</td><td>20 Feb 2026</td><td>Friday</td><td>05:04</td><td>06:25</td><td>18:03</td></tr>
-<tr><td>03 Ramadan</td><td>21 Feb 2026</td><td>Saturday</td><td>05:03</td><td>06:24</td><td>18:03</td></tr>
-<tr><td>04 Ramadan</td><td>22 Feb 2026</td><td>Sunday</td><td>05:02</td><td>06:23</td><td>18:04</td></tr>
-<tr><td>05 Ramadan</td><td>23 Feb 2026</td><td>Monday</td><td>05:01</td><td>06:22</td><td>18:04</td></tr>
-<tr><td>06 Ramadan</td><td>24 Feb 2026</td><td>Tuesday</td><td>05:00</td><td>06:21</td><td>18:05</td></tr>
-<tr><td>07 Ramadan</td><td>25 Feb 2026</td><td>Wednesday</td><td>04:59</td><td>06:20</td><td>18:05</td></tr>
-<tr><td>08 Ramadan</td><td>26 Feb 2026</td><td>Thursday</td><td>04:58</td><td>06:19</td><td>18:06</td></tr>
-<tr><td>09 Ramadan</td><td>27 Feb 2026</td><td>Friday</td><td>04:57</td><td>06:18</td><td>18:06</td></tr>
-<tr><td>10 Ramadan</td><td>28 Feb 2026</td><td>Saturday</td><td>04:56</td><td>06:17</td><td>18:07</td></tr>
-</table>
-</div>
-
-<!-- SECOND 10 DAYS -->
-<div class="date-table">
-<h2>Magfirat 10 Days</h2>
-<table>
+<tbody id="ramadanTable">
 <tr>
-<th>Ramadan</th><th>Date</th><th>Day</th><th>Sehri</th><th>Sunrise</th><th>Ifter</th>
+<td colspan="6">Loading Ramadan data...</td>
 </tr>
+</tbody>
 
-<tr><td>11 Ramadan</td><td>01 Mar 2026</td><td>Sunday</td><td>04:55</td><td>06:16</td><td>18:07</td></tr>
-<tr><td>12 Ramadan</td><td>02 Mar 2026</td><td>Monday</td><td>04:54</td><td>06:15</td><td>18:08</td></tr>
-<tr><td>13 Ramadan</td><td>03 Mar 2026</td><td>Tuesday</td><td>04:53</td><td>06:14</td><td>18:08</td></tr>
-<tr><td>14 Ramadan</td><td>04 Mar 2026</td><td>Wednesday</td><td>04:52</td><td>06:13</td><td>18:09</td></tr>
-<tr><td>15 Ramadan</td><td>05 Mar 2026</td><td>Thursday</td><td>04:51</td><td>06:12</td><td>18:09</td></tr>
-<tr><td>16 Ramadan</td><td>06 Mar 2026</td><td>Friday</td><td>04:50</td><td>06:11</td><td>18:10</td></tr>
-<tr><td>17 Ramadan</td><td>07 Mar 2026</td><td>Saturday</td><td>04:49</td><td>06:10</td><td>18:10</td></tr>
-<tr><td>18 Ramadan</td><td>08 Mar 2026</td><td>Sunday</td><td>04:48</td><td>06:09</td><td>18:11</td></tr>
-<tr><td>19 Ramadan</td><td>09 Mar 2026</td><td>Monday</td><td>04:47</td><td>06:08</td><td>18:11</td></tr>
-<tr><td>20 Ramadan</td><td>10 Mar 2026</td><td>Tuesday</td><td>04:46</td><td>06:07</td><td>18:12</td></tr>
 </table>
-</div>
-
-<!-- LAST 10 DAYS -->
-<div class="date-table">
-<h2>Nazwat 10 Days</h2>
-<table>
-<tr>
-<th>Ramadan</th><th>Date</th><th>Day</th><th>Sehri</th><th>Sunrise</th><th>Ifter</th>
-</tr>
-
-<tr><td>21 Ramadan</td><td>11 Mar 2026</td><td>Wednesday</td><td>04:45</td><td>06:06</td><td>18:12</td></tr>
-<tr><td>22 Ramadan</td><td>12 Mar 2026</td><td>Thursday</td><td>04:44</td><td>06:05</td><td>18:13</td></tr>
-<tr><td>23 Ramadan</td><td>13 Mar 2026</td><td>Friday</td><td>04:43</td><td>06:04</td><td>18:13</td></tr>
-<tr><td>24 Ramadan</td><td>14 Mar 2026</td><td>Saturday</td><td>04:42</td><td>06:03</td><td>18:14</td></tr>
-<tr><td>25 Ramadan</td><td>15 Mar 2026</td><td>Sunday</td><td>04:41</td><td>06:02</td><td>18:14</td></tr>
-<tr><td>26 Ramadan</td><td>16 Mar 2026</td><td>Monday</td><td>04:40</td><td>06:01</td><td>18:15</td></tr>
-<tr><td>27 Ramadan</td><td>17 Mar 2026</td><td>Tuesday</td><td>04:39</td><td>06:00</td><td>18:15</td></tr>
-<tr><td>28 Ramadan</td><td>18 Mar 2026</td><td>Wednesday</td><td>04:38</td><td>05:59</td><td>18:16</td></tr>
-<tr><td>29 Ramadan</td><td>19 Mar 2026</td><td>Thursday</td><td>04:37</td><td>05:58</td><td>18:16</td></tr>
-<tr><td>30 Ramadan</td><td>20 Mar 2026</td><td>Friday</td><td>04:36</td><td>05:57</td><td>18:17</td></tr>
-</table>
-</div>
-
 </div>
 </div>
 </div>
 
 <script>
+// Dark mode
 var button = document.querySelector(".darktheme");
 button.onclick = function(){
- document.querySelector(".darktheme").classList.toggle("active");
+ button.classList.toggle("active");
  document.body.classList.toggle("dark-theme-color");
 }
-</script>
 
-<script>
+// Live datetime
 var dt = new Date();
 document.getElementById("datetime").innerHTML =
-(("0"+dt.getDate()).slice(-2)) +"."+
-(("0"+(dt.getMonth()+1)).slice(-2)) +"."+
-(dt.getFullYear()) +" "+
-(("0"+dt.getHours()).slice(-2)) +":"+
-(("0"+dt.getMinutes()).slice(-2));
+dt.toLocaleString();
+
+
+// ===== AUTO RAMADAN API =====
+const year = new Date().getFullYear();
+
+// Ramadan usually starts Feb or Mar
+async function loadRamadan(){
+    const url =
+`https://api.aladhan.com/v1/calendarByCity?city=Dhaka&country=Bangladesh&method=1&month=2&year=${year}`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    const table = document.getElementById("ramadanTable");
+    table.innerHTML = "";
+
+    let count = 0;
+
+    data.data.forEach(day => {
+
+        if(day.date.hijri.month.en === "Ramadan"){
+            count++;
+
+            const row = `
+            <tr>
+                <td>${count} Ramadan</td>
+                <td>${day.date.gregorian.date}</td>
+                <td>${day.date.gregorian.weekday.en}</td>
+                <td>${day.timings.Fajr.split(" ")[0]}</td>
+                <td>${day.timings.Sunrise.split(" ")[0]}</td>
+                <td>${day.timings.Maghrib.split(" ")[0]}</td>
+            </tr>
+            `;
+
+            table.innerHTML += row;
+        }
+    });
+
+    // যদি February তে Ramadan না থাকে তাহলে March check
+    if(count === 0){
+        const res2 = await fetch(
+`https://api.aladhan.com/v1/calendarByCity?city=Dhaka&country=Bangladesh&method=1&month=3&year=${year}`
+        );
+        const data2 = await res2.json();
+
+        data2.data.forEach(day=>{
+            if(day.date.hijri.month.en === "Ramadan"){
+                count++;
+                table.innerHTML += `
+                <tr>
+                  <td>${count} Ramadan</td>
+                  <td>${day.date.gregorian.date}</td>
+                  <td>${day.date.gregorian.weekday.en}</td>
+                  <td>${day.timings.Fajr.split(" ")[0]}</td>
+                  <td>${day.timings.Sunrise.split(" ")[0]}</td>
+                  <td>${day.timings.Maghrib.split(" ")[0]}</td>
+                </tr>`;
+            }
+        });
+    }
+}
+
+loadRamadan();
 </script>
 
 </body>
