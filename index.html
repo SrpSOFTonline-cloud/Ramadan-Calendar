@@ -20,7 +20,6 @@
 <span>Sahri and Iftar Time Schedule</span>
 <p>Ramadan Calendar 2026</p>
 
-<!-- DIGITAL CLOCK -->
 <h2 id="digitalClock"></h2>
 </div>
 
@@ -44,7 +43,6 @@
 </div>
 </div>
 
-<!-- RAMADAN TABLE -->
 <div class="ramadan-date">
 <div class="container">
 <div class="date-wrapper">
@@ -62,7 +60,6 @@
 <th>Ifter</th>
 </tr>
 
-<!-- 30 DAYS -->
 <tr><td>01</td><td>19 Feb 2026</td><td>Thu</td><td>05:05</td><td>06:26</td><td>18:02</td></tr>
 <tr><td>02</td><td>20 Feb 2026</td><td>Fri</td><td>05:04</td><td>06:25</td><td>18:03</td></tr>
 <tr><td>03</td><td>21 Feb 2026</td><td>Sat</td><td>05:03</td><td>06:24</td><td>18:03</td></tr>
@@ -95,14 +92,12 @@
 <tr><td>30</td><td>20 Mar 2026</td><td>Fri</td><td>04:36</td><td>05:57</td><td>18:17</td></tr>
 
 </table>
-
 </div>
 </div>
 </div>
 </div>
 
-<!-- DEVELOPER INFO -->
-<div style="text-align:center;padding:20px;font-size:14px;">
+<div class="developer">
 <b>App Developer:</b> md.shovon<br>
 <b>Tel:</b> +88096060547<br>
 <b>Developer Company:</b> srp soft.ltd<br>
@@ -110,16 +105,13 @@
 </div>
 
 <script>
-// AM/PM DIGITAL CLOCK
 function updateClock(){
- const now = new Date();
  document.getElementById("digitalClock").innerHTML =
- now.toLocaleTimeString('en-US',{hour12:true});
+ new Date().toLocaleTimeString('en-US',{hour12:true});
 }
 setInterval(updateClock,1000);
 updateClock();
 
-// DATE + TIME AUTO UPDATE
 function updateDateTime(){
  const now = new Date();
  document.getElementById("datetime").innerHTML =
@@ -130,19 +122,19 @@ function updateDateTime(){
 setInterval(updateDateTime,1000);
 updateDateTime();
 
-// AUTO TODAY SCHEDULE
-const rows = document.querySelectorAll("#ramadanTable tr");
-let today = new Date().toDateString();
+const rows=document.querySelectorAll("#ramadanTable tr");
+let today=new Date().toDateString();
 
 rows.forEach(r=>{
  if(r.children.length>1){
-   let d = new Date(r.children[1].innerText).toDateString();
+   let d=new Date(r.children[1].innerText).toDateString();
    if(d===today){
-      r.style.background="#22c55e";
-      document.getElementById("todayRoza").innerText = r.children[0].innerText;
-      document.getElementById("sehriTime").innerText = "- "+r.children[3].innerText;
-      document.getElementById("sunriseTime").innerText = "- "+r.children[4].innerText;
-      document.getElementById("ifterTime").innerText = "- "+r.children[5].innerText;
+     r.style.background="#22c55e";
+     r.style.color="#000";
+     document.getElementById("todayRoza").innerText=r.children[0].innerText;
+     document.getElementById("sehriTime").innerText="- "+r.children[3].innerText;
+     document.getElementById("sunriseTime").innerText="- "+r.children[4].innerText;
+     document.getElementById("ifterTime").innerText="- "+r.children[5].innerText;
    }
  }
 });
@@ -150,6 +142,5 @@ rows.forEach(r=>{
 
 </body>
 </html>
-
 
 
