@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ইসলামিক অল-ইন-ওয়ান অ্যাপ</title>
+<title>রমজান কারিম</title>
 
-<!-- Manifest & Meta -->
+<!-- Meta & Manifest -->
 <meta name="theme-color" content="#0a1f0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
@@ -41,7 +41,7 @@
         transition: opacity 0.5s;
     }
     .splash-logo { font-size: 60px; color: var(--primary); animation: pulse 1.5s infinite; }
-    .splash-text { margin-top: 20px; color: #fff; font-size: 20px; letter-spacing: 2px; }
+    .splash-text { margin-top: 20px; color: #fff; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
     @keyframes pulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
 
     /* Navigation */
@@ -80,9 +80,15 @@
 
     /* Clock & Date */
     .clock-box { text-align: center; padding: 15px; position: relative; }
-    .time-display { font-family: 'Rajdhani', sans-serif; font-size: 52px; font-weight: 700; color: #fff; line-height: 1; }
+    /* Basic AM/PM Style */
+    .time-display { 
+        font-family: 'Rajdhani', sans-serif; font-size: 48px; font-weight: 700; color: #fff; line-height: 1; 
+    }
+    .ampm-display { font-size: 24px; color: var(--primary); margin-left: 5px; }
+    
     .date-display { font-size: 14px; color: var(--txt-muted); margin-top: 5px; }
     .hijri-date { color: var(--primary); font-weight: 600; }
+    
     .next-prayer-box {
         background: linear-gradient(135deg, var(--accent), #0a1f0a); padding: 15px;
         border-radius: 12px; margin-top: 10px; border: 1px solid var(--primary);
@@ -108,6 +114,7 @@
     .compass-box { position: relative; width: 220px; height: 220px; margin: 0 auto; border-radius: 50%; border: 4px solid var(--primary); background: radial-gradient(circle, rgba(0,0,0,0.3), transparent); }
     .needle { position: absolute; top: 10px; left: 50%; width: 4px; height: 100px; background: var(--primary); transform-origin: bottom center; transform: translateX(-50%) rotate(0deg); transition: transform 0.5s; }
     .tasbih-display { font-family: 'Rajdhani'; font-size: 60px; text-align: center; color: #fff; margin: 10px 0; }
+    .input-field { width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #333; background: rgba(0,0,0,0.3); color: #fff; font-family: inherit; }
     .btn-main { width: 100%; padding: 12px; background: var(--primary); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
     .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 15px; border-radius: 20px; cursor: pointer; }
 
@@ -130,6 +137,14 @@
     /* Dev Info */
     .dev-info { text-align: center; padding: 30px 10px; color: var(--txt-muted); font-size: 12px; }
     .dev-card { background: var(--card); padding: 15px; border-radius: 10px; display: inline-block; }
+    
+    /* Toggle Switch */
+    .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+    .switch input {opacity: 0; width: 0; height: 0;} 
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;} 
+    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;} 
+    input:checked + .slider { background-color: var(--primary); } 
+    input:checked + .slider:before { transform: translateX(22px); }
 </style>
 </head>
 <body>
@@ -137,7 +152,7 @@
 <!-- Splash Screen -->
 <div id="splash">
     <i class="fa-solid fa-mosque splash-logo"></i>
-    <div class="splash-text">ইসলামিক প্রো অ্যাপ</div>
+    <div class="splash-text">রমজান কারিম</div>
 </div>
 
 <!-- Azan Modal -->
@@ -169,7 +184,7 @@
     <!-- PAGE 1: HOME -->
     <div id="p-home" class="page active">
         <header>
-            <h1>ইসলামিক প্রো</h1>
+            <h1>রমজান কারিম</h1>
             <div class="header-btns">
                 <button class="icon-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-moon"></i></button>
                 <button class="icon-btn" onclick="openLoc()"><i class="fa-solid fa-location-dot"></i></button>
@@ -180,7 +195,12 @@
         <div class="card clock-box">
             <div class="date-display" id="gDate">--</div>
             <div class="date-display hijri-date" id="hDate">--</div>
-            <div class="time-display" id="liveTime">--:--</div>
+            
+            <!-- Basic AM/PM Clock Display -->
+            <div style="display:flex; align-items:center; justify-content:center;">
+                <div class="time-display" id="liveTime">--:--</div>
+                <div class="ampm-display" id="ampm">--</div>
+            </div>
             
             <!-- Next Prayer -->
             <div class="next-prayer-box">
@@ -249,7 +269,7 @@
         </div>
     </div>
 
-    <!-- PAGE 3: TOOLS (Qibla, Zakat, Tasbih) -->
+    <!-- PAGE 3: TOOLS -->
     <div id="p-tools" class="page">
         <header> <h1>ইসলামিক টুলস</h1> </header>
 
@@ -326,7 +346,6 @@
                     <span class="slider round"></span>
                 </label>
             </div>
-            <style>.switch { position: relative; display: inline-block; width: 50px; height: 26px; } .switch input {opacity: 0; width: 0; height: 0;} .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;} .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;} input:checked + .slider { background-color: var(--primary); } input:checked + .slider:before { transform: translateX(22px); }</style>
         </div>
 
         <div class="dev-info">
@@ -356,7 +375,6 @@
 
 <script>
     // ===== DATA STORE =====
-    // Prayer Times (Base: Dhaka)
     const times = { 
         fajr: "05:10", sunrise: "06:25", dhuhr: "12:15", asr: "16:15", maghrib: "18:05", isha: "19:20" 
     };
@@ -452,18 +470,37 @@
     // ===== TIME & PRAYER LOGIC =====
     function getMins(t) { let p=t.split(':'); return parseInt(p[0])*60+parseInt(p[1]); }
     function adjTime(t, c) { let m=getMins(t)+c; if(m<0)m+=1440; if(m>=1440)m-=1440; let h=Math.floor(m/60); let mn=m%60; return `${h}:${mn<10?'0'+mn:mn}`; }
-    function fmt(t) { let [h,m]=t.split(':'); h=parseInt(h); let ap=h>=12?'PM':'AM'; h=h%12; h=h?h:12; return `${h}:${m} ${ap}`; }
+    
+    // Format: 12 Hour with AM/PM
+    function fmt(t) {
+        let [h, m] = t.split(':');
+        h = parseInt(h);
+        let ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12;
+        h = h ? h : 12; // 0 becomes 12
+        return `${h}:${m} ${ampm}`;
+    }
 
     function updateClock() {
         const now = new Date();
-        document.getElementById('liveTime').innerText = now.toLocaleTimeString('en-US', {hour12:false});
+        
+        // Date
         document.getElementById('gDate').innerText = now.toLocaleDateString('bn-BD', { dateStyle: 'full' });
         
-        // Approx Hijri (Simple Calculation)
-        // Note: For exact Hijri, a library is needed. This is a placeholder.
+        // Hijri Approximation
         let hDate = "১৫ শা'বান ১৪৪৭"; 
-        // Logic to approximate could be added here
         document.getElementById('hDate').innerText = hDate + " হিজরি";
+
+        // Basic AM/PM Clock
+        let h = now.getHours();
+        let m = now.getMinutes();
+        let s = now.getSeconds();
+        let ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12;
+        h = h ? h : 12;
+        
+        document.getElementById('liveTime').innerText = `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        document.getElementById('ampm').innerText = ampm;
 
         // Prayer Logic
         let off = offsets[loc];
@@ -480,7 +517,6 @@
 
         pList.forEach(p => {
             let pMins = getMins(p.t);
-            // Update visual style
             let row = document.getElementById('row-'+p.id);
             if(row) {
                 if(pMins < currMins) row.style.opacity = "0.5";
@@ -492,7 +528,7 @@
             }
         });
 
-        if(!next) { // Next Fajr
+        if(!next) {
             let fMins = getMins(adjTime(times.fajr, off.s)) + 1440;
             next = {name: "ফজর", mins: fMins, t: adjTime(times.fajr, off.s)};
         }
@@ -501,9 +537,9 @@
         
         // Countdown
         let diff = (next.mins - currMins)*60 - now.getSeconds();
-        let h = Math.floor(diff/3600); let m = Math.floor((diff%3600)/60); let s = diff%60;
+        let ch = Math.floor(diff/3600); let cm = Math.floor((diff%3600)/60); let cs = diff%60;
         document.getElementById('nextCount').innerText = 
-            `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+            `${ch.toString().padStart(2,'0')}:${cm.toString().padStart(2,'0')}:${cs.toString().padStart(2,'0')}`;
 
         // Azan Check
         if(document.getElementById('soundToggle').checked) {
@@ -551,7 +587,6 @@
         saved[id] = !saved[id];
         localStorage.setItem('prayers', JSON.stringify(saved));
         
-        // Check streak (simple logic: if all 5 done)
         if(Object.keys(saved).filter(k=>saved[k]).length === 5) {
             let lastDate = localStorage.getItem('lastPrayerDate');
             let today = new Date().toDateString();
@@ -571,7 +606,6 @@
         let list = document.getElementById('ramadanList');
         list.innerHTML = '';
         
-        // Determine current day index (Demo: Day 1)
         let idx = 0;
         const now = new Date();
         if(now.getFullYear() === 2026) {
@@ -580,18 +614,15 @@
             if(diff >=0 && diff < 30) idx = diff;
         }
         
-        // Update Main Card
         let d = ramadanData[idx];
         document.getElementById('rozaNum').innerText = d.d;
         document.getElementById('sehriTime').innerText = fmt(adjTime(d.s, off.s));
         document.getElementById('iftarTime').innerText = fmt(adjTime(d.i, off.i));
         
-        // Progress
         let prog = ((idx + 1) / 30) * 100;
         document.getElementById('progressBar').style.width = prog + '%';
         document.getElementById('progressTxt').innerText = Math.round(prog) + '%';
 
-        // List
         ramadanData.forEach((item, i) => {
             let h = i == idx ? 'active-day' : '';
             list.innerHTML += `
@@ -610,7 +641,7 @@
         if(window.DeviceOrientationEvent) {
             window.addEventListener('deviceorientation', (e) => {
                 if(e.alpha) {
-                    let rot = 278 - e.alpha; // Approx Qibla for BD
+                    let rot = 278 - e.alpha;
                     document.getElementById('needle').style.transform = `translateX(-50%) rotate(${rot}deg)`;
                 }
             });
@@ -633,7 +664,7 @@
         let c = parseFloat(document.getElementById('zCash').value) || 0;
         let d = parseFloat(document.getElementById('zDebt').value) || 0;
         let tot = g + c + d;
-        let nisab = 530000; // Approx
+        let nisab = 530000;
         if(tot >= nisab) {
             let z = tot * 0.025;
             document.getElementById('zakatRes').innerText = "যাকাত: " + z.toFixed(2) + " টাকা";
@@ -690,7 +721,7 @@
     // ===== UTILS =====
     function shareApp() {
         if(navigator.share) {
-            navigator.share({ title: 'ইসলামিক প্রো অ্যাপ', url: window.location.href });
+            navigator.share({ title: 'রমজান কারিম', url: window.location.href });
         } else { alert("শেয়ার অপশন এই ব্রাউজারে সাপোর্টেড নয়।"); }
     }
 
