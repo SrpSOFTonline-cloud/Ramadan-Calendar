@@ -2,544 +2,698 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>রমজান ক্যালেন্ডার ২০২৬ | অটো আপডেট</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>ইসলামিক অল-ইন-ওয়ান অ্যাপ</title>
 
-<!-- Fonts & Icons -->
+<!-- Manifest & Meta -->
+<meta name="theme-color" content="#0a1f0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<!-- Resources -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;800&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;800&family=Rajdhani:wght@500;700&family=Amiri:wght@700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
     :root {
-        --primary-gold: #D4AF37;
-        --primary-green: #1B5E20;
-        --bg-main: #0a1f0a;
-        --card-bg: rgba(26, 44, 30, 0.85);
-        --text-light: #E8F5E9;
-        --accent-red: #ff5252;
+        --primary: #D4AF37; --bg: #0a1f0a; --card: rgba(20, 40, 20, 0.95);
+        --text: #E8F5E9; --accent: #1B5E20; --txt-muted: #A5D6A7;
+        --danger: #ff5252; --success: #4CAF50;
+    }
+    .light-theme {
+        --bg: #F1F8E9; --card: rgba(255, 255, 255, 0.98);
+        --text: #1B5E20; --accent: #D4AF37; --txt-muted: #555;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     body {
         font-family: 'Noto Sans Bengali', sans-serif;
-        background: linear-gradient(135deg, #050d05 0%, #0a1f0a 100%);
-        color: var(--text-light);
-        min-height: 100vh;
-        overflow-x: hidden;
+        background: var(--bg); color: var(--text);
+        min-height: 100vh; overflow-x: hidden;
+        transition: background 0.3s;
     }
 
-    .container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 15px;
+    /* Splash Screen */
+    #splash {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: var(--bg); z-index: 9999; display: flex;
+        flex-direction: column; align-items: center; justify-content: center;
+        transition: opacity 0.5s;
     }
+    .splash-logo { font-size: 60px; color: var(--primary); animation: pulse 1.5s infinite; }
+    .splash-text { margin-top: 20px; color: #fff; font-size: 20px; letter-spacing: 2px; }
+    @keyframes pulse { 0% { transform: scale(0.8); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+
+    /* Navigation */
+    .bottom-nav {
+        position: fixed; bottom: 0; left: 0; width: 100%;
+        background: var(--card); border-top: 2px solid var(--primary);
+        display: flex; justify-content: space-around; padding: 8px 0; z-index: 100;
+        backdrop-filter: blur(10px); box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+    }
+    .nav-item { text-align: center; cursor: pointer; opacity: 0.5; padding: 5px 10px; flex: 1; }
+    .nav-item.active { opacity: 1; color: var(--primary); transform: translateY(-2px); }
+    .nav-item i { font-size: 18px; display: block; margin-bottom: 3px; }
+    .nav-item span { font-size: 10px; font-weight: 600; }
+
+    /* Pages */
+    .container { max-width: 600px; margin: 0 auto; padding: 15px; padding-bottom: 80px; }
+    .page { display: none; animation: fadeIn 0.4s ease-out; }
+    .page.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
     /* Header */
-    header {
-        text-align: center;
-        padding: 30px 10px 20px;
-        position: relative;
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-top: 10px; }
+    h1 { font-size: 20px; color: var(--primary); text-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+    .header-btns { display: flex; gap: 10px; }
+    .icon-btn {
+        background: transparent; border: 1px solid var(--primary); color: var(--primary);
+        width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 14px;
+        display: flex; align-items: center; justify-content: center;
     }
 
-    h1 {
-        font-size: 28px;
-        font-weight: 800;
-        color: var(--primary-gold);
-        text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
-        margin-bottom: 5px;
+    /* Cards */
+    .card {
+        background: var(--card); border-radius: 16px; padding: 15px; margin-bottom: 15px;
+        border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    .date-badge {
-        display: inline-block;
-        background: var(--primary-green);
-        color: #fff;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 14px;
-        border: 1px solid var(--primary-gold);
+    /* Clock & Date */
+    .clock-box { text-align: center; padding: 15px; position: relative; }
+    .time-display { font-family: 'Rajdhani', sans-serif; font-size: 52px; font-weight: 700; color: #fff; line-height: 1; }
+    .date-display { font-size: 14px; color: var(--txt-muted); margin-top: 5px; }
+    .hijri-date { color: var(--primary); font-weight: 600; }
+    .next-prayer-box {
+        background: linear-gradient(135deg, var(--accent), #0a1f0a); padding: 15px;
+        border-radius: 12px; margin-top: 10px; border: 1px solid var(--primary);
     }
+    .countdown-big { font-size: 28px; color: var(--primary); font-weight: 700; }
 
-    /* District Selector */
-    .top-bar {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
+    /* Prayer Grid */
+    .prayer-row {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
     }
+    .prayer-row:last-child { border-bottom: none; }
+    .p-name { font-weight: 600; }
+    .p-time { font-family: 'Rajdhani'; font-size: 20px; color: var(--primary); }
+    .p-check { width: 24px; height: 24px; border: 2px solid var(--primary); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #000; background: transparent; font-size: 12px; }
+    .p-check.done { background: var(--primary); color: #000; }
 
-    select {
-        background: #132913;
-        color: #fff;
-        border: 1px solid var(--primary-gold);
-        padding: 8px 15px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-    }
+    /* Ramadan Progress */
+    .progress-bar { height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-top: 10px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), #fff); border-radius: 4px; transition: width 0.5s; }
 
-    /* Countdown Section */
-    .countdown-box {
-        background: radial-gradient(circle at top, #1e4620, #0a1f0a);
-        border: 2px solid var(--primary-gold);
-        border-radius: 20px;
-        padding: 30px 20px;
-        text-align: center;
-        margin-bottom: 20px;
-        box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
-        position: relative;
-        overflow: hidden;
-    }
-    
-    /* Islamic Pattern Overlay */
-    .countdown-box::before {
-        content: '';
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSI+PHBhdGggZD0iTTMwIDBWMzBNNjAgMzBIMzBNNjAgMEwzMCAzME0wIDYwTDMwIDMwTTAgMEwzMCAzME0zMCAzME0zMCA2ME0zMCAzME02MCAzMCIvPjwvc3ZnPg==');
-        opacity: 0.3;
-    }
+    /* Tools: Compass, Tasbih */
+    .compass-box { position: relative; width: 220px; height: 220px; margin: 0 auto; border-radius: 50%; border: 4px solid var(--primary); background: radial-gradient(circle, rgba(0,0,0,0.3), transparent); }
+    .needle { position: absolute; top: 10px; left: 50%; width: 4px; height: 100px; background: var(--primary); transform-origin: bottom center; transform: translateX(-50%) rotate(0deg); transition: transform 0.5s; }
+    .tasbih-display { font-family: 'Rajdhani'; font-size: 60px; text-align: center; color: #fff; margin: 10px 0; }
+    .btn-main { width: 100%; padding: 12px; background: var(--primary); color: #000; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 16px; }
+    .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); padding: 8px 15px; border-radius: 20px; cursor: pointer; }
 
-    .status-text {
-        font-size: 18px;
-        color: var(--primary-gold);
-        margin-bottom: 10px;
-        font-weight: 600;
-        z-index: 1;
-        position: relative;
-    }
+    /* Quran & Dua */
+    .surah-item, .dua-item { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; }
+    .surah-item:active { background: rgba(255,255,255,0.05); }
+    .arabic-text { font-family: 'Amiri', serif; font-size: 24px; text-align: right; direction: rtl; width: 100%; margin-bottom: 10px; color: var(--primary); }
+    .bangla-text { font-size: 14px; color: var(--txt-muted); }
 
-    .timer-val {
-        font-family: 'Rajdhani', sans-serif; /* English font for timer */
-        font-size: 60px;
-        font-weight: 700;
-        color: #fff;
-        line-height: 1;
-        text-shadow: 0 0 20px rgba(255,255,255,0.3);
-        z-index: 1;
-        position: relative;
+    /* Modals */
+    .modal-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.9); z-index: 200; display: none;
+        align-items: center; justify-content: center; flex-direction: column; padding: 20px;
     }
+    .modal-content { background: var(--card); padding: 20px; border-radius: 15px; width: 100%; max-width: 350px; text-align: center; }
+    .azan-icon { font-size: 60px; color: var(--primary); margin-bottom: 15px; animation: ring 1s infinite; }
+    @keyframes ring { 0% { transform: rotate(0); } 25% { transform: rotate(20deg); } 50% { transform: rotate(0); } 75% { transform: rotate(-20deg); } 100% { transform: rotate(0); } }
 
-    .timer-val span {
-        font-size: 20px;
-        color: #aaa;
-        margin-left: 3px;
-    }
-
-    /* Navigation & Info */
-    .nav-card {
-        background: var(--card-bg);
-        border-radius: 15px;
-        padding: 20px;
-        margin-bottom: 20px;
-        border: 1px solid rgba(255,255,255,0.1);
-        position: relative;
-    }
-
-    .nav-controls {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    .nav-btn {
-        background: transparent;
-        border: 1px solid var(--primary-gold);
-        color: var(--primary-gold);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        font-size: 16px;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .nav-btn:hover {
-        background: var(--primary-gold);
-        color: #000;
-    }
-
-    .current-roza {
-        text-align: center;
-    }
-    
-    .roza-num {
-        font-size: 40px;
-        font-weight: 800;
-        color: #fff;
-    }
-    
-    .roza-label {
-        font-size: 14px;
-        color: #aaa;
-    }
-
-    .time-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 15px;
-    }
-
-    .time-block {
-        background: rgba(0,0,0,0.2);
-        padding: 15px;
-        border-radius: 10px;
-        text-align: center;
-    }
-
-    .time-block h5 { font-size: 12px; color: #aaa; margin-bottom: 5px; }
-    .time-block h3 { font-size: 22px; color: var(--primary-gold); font-weight: 800; }
-    .sehri-color { color: #4ADE80; }
-    .iftar-color { color: #FB923C; }
-
-    /* Namaz Time */
-    .namaz-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 5px;
-        margin-top: 15px;
-        text-align: center;
-    }
-    .namaz-item p { font-size: 10px; color: #aaa; margin-bottom: 2px; }
-    .namaz-item h6 { font-size: 13px; color: #fff; }
-
-    /* Table */
-    .table-container {
-        overflow-x: auto;
-        border-radius: 10px;
-        border: 1px solid rgba(255,255,255,0.1);
-        margin-bottom: 20px;
-    }
-    
-    table { width: 100%; border-collapse: collapse; text-align: center; }
-    th { background: #1B5E20; color: #fff; padding: 10px 5px; font-size: 12px; }
-    td { padding: 10px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
-    tr:hover { background: rgba(255,255,255,0.03); }
-    
-    .active-day {
-        background: rgba(212, 175, 55, 0.2) !important;
-        border-left: 3px solid var(--primary-gold);
-    }
-    .active-day td { font-weight: bold; color: #fff; }
-
-    /* Footer */
-    footer {
-        text-align: center;
-        padding: 20px;
-        border-top: 1px solid rgba(255,255,255,0.1);
-        color: #666;
-        font-size: 12px;
-    }
-    .dev-badge {
-        display: inline-block;
-        background: #1B5E20;
-        padding: 10px 20px;
-        border-radius: 30px;
-        margin-top: 10px;
-        color: #fff;
-        border: 1px solid var(--primary-gold);
-    }
-
+    /* Dev Info */
+    .dev-info { text-align: center; padding: 30px 10px; color: var(--txt-muted); font-size: 12px; }
+    .dev-card { background: var(--card); padding: 15px; border-radius: 10px; display: inline-block; }
 </style>
 </head>
 <body>
 
+<!-- Splash Screen -->
+<div id="splash">
+    <i class="fa-solid fa-mosque splash-logo"></i>
+    <div class="splash-text">ইসলামিক প্রো অ্যাপ</div>
+</div>
+
+<!-- Azan Modal -->
+<div id="azanModal" class="modal-overlay">
+    <div class="modal-content">
+        <i class="fa-solid fa-bell azan-icon"></i>
+        <h2 style="color:#fff">নামাজের সময়</h2>
+        <h1 id="azanName" style="color:var(--primary); margin:10px 0;">--</h1>
+        <p style="color:var(--txt-muted); font-size:14px;">আজান চলছে...</p>
+        <button onclick="stopAzan()" class="btn-main" style="margin-top:20px;">বন্ধ করুন</button>
+    </div>
+</div>
+
+<!-- Quran Reader Modal -->
+<div id="quranModal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 100%; height: 90vh; overflow-y: auto; text-align: left;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h3 style="color:var(--primary)" id="sTitle">সূরা নাম</h3>
+            <i class="fa-solid fa-xmark" onclick="closeQuran()" style="cursor:pointer; font-size:20px;"></i>
+        </div>
+        <div id="sAyahs"></div>
+        <button onclick="playAudio()" class="btn-outline" style="margin-top:15px;"><i class="fa-solid fa-play"></i> তেলাওয়াত শুনুন</button>
+    </div>
+</div>
+
+<!-- Main App -->
 <div class="container">
     
-    <header>
-        <h1>পবিত্র রমজান ২০২৬</h1>
-        <div class="date-badge" id="fullDate">তারিখ লোড হচ্ছে...</div>
-    </header>
-
-    <!-- District Selector -->
-    <div class="top-bar">
-        <i class="fa-solid fa-location-dot" style="color:var(--primary-gold); line-height:35px;"></i>
-        <select id="distSelect" onchange="updateAll()">
-            <option value="dhaka">ঢাকা (স্ট্যান্ডার্ড)</option>
-            <option value="chattogram">চট্টগ্রাম (+৪ মিঃ)</option>
-            <option value="sylhet">সিলেট (+৬ মিঃ)</option>
-            <option value="rajshahi">রাজশাহী (-৬ মিঃ)</option>
-            <option value="khulna">খুলনা (-৫ মিঃ)</option>
-            <option value="rangpur">রংপুর (-৫ মিঃ)</option>
-            <option value="barishal">বরিশাল (+২ মিঃ)</option>
-            <option value="dinajpur">দিনাজপুর (-৭ মিঃ)</option>
-        </select>
-    </div>
-
-    <!-- Countdown Timer -->
-    <div class="countdown-box">
-        <div class="status-text" id="timerLabel">ইফতার বাকি</div>
-        <div class="timer-val" id="timerDisplay">--:--:--</div>
-    </div>
-
-    <!-- Day Info & Controls -->
-    <div class="nav-card">
-        <div class="nav-controls">
-            <button class="nav-btn" onclick="changeDay(-1)"><i class="fa-solid fa-arrow-left"></i></button>
-            <div class="current-roza">
-                <div class="roza-num" id="dayNum">--</div>
-                <div class="roza-label" id="dayDate">রমজান</div>
+    <!-- PAGE 1: HOME -->
+    <div id="p-home" class="page active">
+        <header>
+            <h1>ইসলামিক প্রো</h1>
+            <div class="header-btns">
+                <button class="icon-btn" onclick="toggleTheme()" id="themeBtn"><i class="fa-solid fa-moon"></i></button>
+                <button class="icon-btn" onclick="openLoc()"><i class="fa-solid fa-location-dot"></i></button>
             </div>
-            <button class="nav-btn" onclick="changeDay(1)"><i class="fa-solid fa-arrow-right"></i></button>
-        </div>
+        </header>
 
-        <!-- Sehri Iftar Time -->
-        <div class="time-grid">
-            <div class="time-block">
-                <h5>সেহরি শেষ</h5>
-                <h3 class="sehri-color" id="tSehri">--:--</h3>
-            </div>
-            <div class="time-block">
-                <h5>ইফতার</h5>
-                <h3 class="iftar-color" id="tIftar">--:--</h3>
+        <!-- Date & Clock -->
+        <div class="card clock-box">
+            <div class="date-display" id="gDate">--</div>
+            <div class="date-display hijri-date" id="hDate">--</div>
+            <div class="time-display" id="liveTime">--:--</div>
+            
+            <!-- Next Prayer -->
+            <div class="next-prayer-box">
+                <div style="display:flex; justify-content:space-between;">
+                    <span>পরবর্তী নামাজ</span>
+                    <span id="nextName" style="color:#fff; font-weight:bold;">--</span>
+                </div>
+                <div class="countdown-big" id="nextCount">--:--:--</div>
             </div>
         </div>
 
-        <!-- Namaz Times -->
-        <div class="namaz-grid">
-            <div class="namaz-item"><p>ফজর</p><h6 id="nFajr">--:--</h6></div>
-            <div class="namaz-item"><p>যোহর</p><h6 id="nDhuhr">--:--</h6></div>
-            <div class="namaz-item"><p>আসর</p><h6 id="nAsr">--:--</h6></div>
-            <div class="namaz-item"><p>মাগরিব</p><h6 id="nMaghrib">--:--</h6></div>
-            <div class="namaz-item"><p>ইশা</p><h6 id="nIsha">--:--</h6></div>
+        <!-- Prayer List with Tracker -->
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <h3>আজকের নামাজ</h3>
+                <span style="color:var(--txt-muted); font-size:12px;">স্ট্রিক: <span id="streakCount" style="color:var(--primary)">0</span> দিন</span>
+            </div>
+            <div id="prayerList"></div>
+        </div>
+
+        <!-- Quick Tools -->
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+            <div class="card" style="text-align:center; cursor:pointer;" onclick="openPage('tools')">
+                <i class="fa-solid fa-compass" style="font-size:24px; color:var(--primary); margin-bottom:5px;"></i>
+                <div style="font-size:12px;">কিবলা</div>
+            </div>
+            <div class="card" style="text-align:center; cursor:pointer;" onclick="openPage('ramadan')">
+                <i class="fa-solid fa-moon" style="font-size:24px; color:var(--primary); margin-bottom:5px;"></i>
+                <div style="font-size:12px;">রমজান</div>
+            </div>
         </div>
     </div>
 
-    <!-- Full Calendar Table -->
-    <div class="table-container">
-        <table id="calTable">
-            <thead>
-                <tr><th>রমজান</th><th>তারিখ</th><th>দিন</th><th>সেহরি</th><th>ইফতার</th></tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+    <!-- PAGE 2: RAMADAN -->
+    <div id="p-ramadan" class="page">
+        <header> <h1>রমজান ক্যালেন্ডার</h1> </header>
+
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-size:12px; color:var(--txt-muted);">আজকের রোজা</div>
+                    <div style="font-size:32px; font-weight:800; color:#fff;" id="rozaNum">--</div>
+                </div>
+                <div style="text-align:right">
+                    <div style="font-size:12px; color:var(--txt-muted);">সেহরি শেষ</div>
+                    <div style="font-size:20px; color:var(--success);" id="sehriTime">--:--</div>
+                </div>
+            </div>
+            <div style="margin-top:10px; text-align:right">
+                <div style="font-size:12px; color:var(--txt-muted);">ইফতার</div>
+                <div style="font-size:20px; color:var(--primary);" id="iftarTime">--:--</div>
+            </div>
+            
+            <!-- Progress Bar -->
+            <div style="margin-top:20px;">
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px;">
+                    <span>রমজান অগ্রগতি</span> <span id="progressTxt">0%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="progressBar" style="width:0%"></div></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom:10px;">৩০ দিনের তালিকা</h3>
+            <div id="ramadanList" style="max-height:300px; overflow-y:auto;"></div>
+        </div>
     </div>
 
-    <!-- Developer Credit -->
-    <footer>
-        <div class="dev-badge">
-            <span style="color:#D4AF37;">Developed by</span> <b>Md. Shovon</b> | SRP Soft Ltd
+    <!-- PAGE 3: TOOLS (Qibla, Zakat, Tasbih) -->
+    <div id="p-tools" class="page">
+        <header> <h1>ইসলামিক টুলস</h1> </header>
+
+        <!-- Qibla -->
+        <div class="card" style="text-align:center;">
+            <h3>কিবলা কম্পাস</h3>
+            <div style="margin:20px auto; width:220px;">
+                <div class="compass-box">
+                    <div class="needle" id="needle"></div>
+                </div>
+            </div>
+            <p style="font-size:12px; color:var(--txt-muted);">মোবাইল সমতল করে ধরুন</p>
         </div>
-        <p style="margin-top:10px;">Helpline: 096060547</p>
-    </footer>
+
+        <!-- Tasbih -->
+        <div class="card">
+            <h3 style="text-align:center;">তাসবিহ কাউন্টার</h3>
+            <div class="tasbih-display" id="tasbihVal">0</div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <button class="btn-outline" onclick="resetTasbih()">রিসেট</button>
+                <button class="btn-main" onclick="countTasbih()">কাউন্ট</button>
+            </div>
+        </div>
+
+        <!-- Zakat -->
+        <div class="card">
+            <h3>যাকাত ক্যালকুলেটর</h3>
+            <input type="number" id="zGold" class="input-field" placeholder="স্বর্ণের মূল্য (টাকা)">
+            <input type="number" id="zCash" class="input-field" placeholder="নগদ টাকা / ব্যাংক">
+            <input type="number" id="zDebt" class="input-field" placeholder="পাওনা টাকা">
+            <button class="btn-main" onclick="calcZakat()">হিসাব করুন</button>
+            <div id="zakatRes" style="text-align:center; margin-top:10px; font-weight:bold; color:var(--primary);"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 4: QURAN -->
+    <div id="p-quran" class="page">
+        <header> <h1>কোরআন ও দোয়া</h1> </header>
+        
+        <div class="card">
+            <h3 style="margin-bottom:10px;"><i class="fa-solid fa-book-open"></i> নির্বাচিত সূরা</h3>
+            <div id="surahList"></div>
+        </div>
+
+        <div class="card">
+            <h3 style="margin-bottom:10px;"><i class="fa-solid fa-hands-praying"></i> দৈনিক দোয়া</h3>
+            <div id="duaList"></div>
+        </div>
+    </div>
+
+    <!-- PAGE 5: SETTINGS -->
+    <div id="p-settings" class="page">
+        <header> <h1>সেটিংস</h1> </header>
+
+        <div class="card">
+            <h3>লোকেশন সেটিংস</h3>
+            <div style="margin-top:10px;">
+                <select id="locSelect" class="input-field" onchange="updateLoc()">
+                    <option value="dhaka">ঢাকা</option>
+                    <option value="chattogram">চট্টগ্রাম</option>
+                    <option value="sylhet">সিলেট</option>
+                    <option value="rajshahi">রাজশাহী</option>
+                    <option value="khulna">খুলনা</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>নোটিফিকেশন</h3>
+            <div class="prayer-row">
+                <span>আজান সাউন্ড</span>
+                <label class="switch">
+                    <input type="checkbox" id="soundToggle" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <style>.switch { position: relative; display: inline-block; width: 50px; height: 26px; } .switch input {opacity: 0; width: 0; height: 0;} .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;} .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%;} input:checked + .slider { background-color: var(--primary); } input:checked + .slider:before { transform: translateX(22px); }</style>
+        </div>
+
+        <div class="dev-info">
+            <div class="dev-card">
+                <h4 style="color:var(--primary); margin-bottom:5px;">App Developer</h4>
+                <p style="color:#fff; font-weight:600;">Md. Shovon</p>
+                <p>SRP Soft Ltd</p>
+                <p style="margin-top:5px;">Helpline: 096060547</p>
+            </div>
+            <br>
+            <button onclick="shareApp()" class="btn-outline" style="margin-top:10px;"><i class="fa-solid fa-share"></i> অ্যাপ শেয়ার করুন</button>
+        </div>
+    </div>
 
 </div>
 
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+    <div class="nav-item active" onclick="openPage('home')"><i class="fa-solid fa-house"></i><span>হোম</span></div>
+    <div class="nav-item" onclick="openPage('ramadan')"><i class="fa-solid fa-moon"></i><span>রমজান</span></div>
+    <div class="nav-item" onclick="openPage('tools')"><i class="fa-solid fa-toolbox"></i><span>টুলস</span></div>
+    <div class="nav-item" onclick="openPage('quran')"><i class="fa-solid fa-book"></i><span>কোরআন</span></div>
+    <div class="nav-item" onclick="openPage('settings')"><i class="fa-solid fa-gear"></i><span>সেটিংস</span></div>
+</div>
+
+<audio id="azanAudio" src="https://www.islamcan.com/audio/adhan/azan1.mp3" preload="auto"></audio>
+
 <script>
-    // ===== RAMADAN DATA (2026) =====
-    const rData = [
-        {d:"01", dt:"19 Feb", day:"Thu", s:"5:05", i:"18:02"},
-        {d:"02", dt:"20 Feb", day:"Fri", s:"5:04", i:"18:03"},
-        {d:"03", dt:"21 Feb", day:"Sat", s:"5:03", i:"18:03"},
-        {d:"04", dt:"22 Feb", day:"Sun", s:"5:02", i:"18:04"},
-        {d:"05", dt:"23 Feb", day:"Mon", s:"5:01", i:"18:04"},
-        {d:"06", dt:"24 Feb", day:"Tue", s:"5:00", i:"18:05"},
-        {d:"07", dt:"25 Feb", day:"Wed", s:"4:59", i:"18:05"},
-        {d:"08", dt:"26 Feb", day:"Thu", s:"4:58", i:"18:06"},
-        {d:"09", dt:"27 Feb", day:"Fri", s:"4:57", i:"18:06"},
-        {d:"10", dt:"28 Feb", day:"Sat", s:"4:56", i:"18:07"},
-        {d:"11", dt:"01 Mar", day:"Sun", s:"4:55", i:"18:07"},
-        {d:"12", dt:"02 Mar", day:"Mon", s:"4:54", i:"18:08"},
-        {d:"13", dt:"03 Mar", day:"Tue", s:"4:53", i:"18:08"},
-        {d:"14", dt:"04 Mar", day:"Wed", s:"4:52", i:"18:09"},
-        {d:"15", dt:"05 Mar", day:"Thu", s:"4:51", i:"18:09"},
-        {d:"16", dt:"06 Mar", day:"Fri", s:"4:50", i:"18:10"},
-        {d:"17", dt:"07 Mar", day:"Sat", s:"4:49", i:"18:10"},
-        {d:"18", dt:"08 Mar", day:"Sun", s:"4:48", i:"18:11"},
-        {d:"19", dt:"09 Mar", day:"Mon", s:"4:47", i:"18:11"},
-        {d:"20", dt:"10 Mar", day:"Tue", s:"4:46", i:"18:12"},
-        {d:"21", dt:"11 Mar", day:"Wed", s:"4:45", i:"18:12"},
-        {d:"22", dt:"12 Mar", day:"Thu", s:"4:44", i:"18:13"},
-        {d:"23", dt:"13 Mar", day:"Fri", s:"4:43", i:"18:13"},
-        {d:"24", dt:"14 Mar", day:"Sat", s:"4:42", i:"18:14"},
-        {d:"25", dt:"15 Mar", day:"Sun", s:"4:41", i:"18:14"},
-        {d:"26", dt:"16 Mar", day:"Mon", s:"4:40", i:"18:15"},
-        {d:"27", dt:"17 Mar", day:"Tue", s:"4:39", i:"18:15"},
-        {d:"28", dt:"18 Mar", day:"Wed", s:"4:38", i:"18:16"},
-        {d:"29", dt:"19 Mar", day:"Thu", s:"4:37", i:"18:16"},
-        {d:"30", dt:"20 Mar", day:"Fri", s:"4:36", i:"18:17"}
+    // ===== DATA STORE =====
+    // Prayer Times (Base: Dhaka)
+    const times = { 
+        fajr: "05:10", sunrise: "06:25", dhuhr: "12:15", asr: "16:15", maghrib: "18:05", isha: "19:20" 
+    };
+    const offsets = { 
+        dhaka: {s:0,i:0}, chattogram: {s:4,i:5}, sylhet: {s:6,i:7}, 
+        rajshahi: {s:-6,i:-7}, khulna: {s:-5,i:-6} 
+    };
+    
+    // Ramadan 2026 Data
+    const ramadanData = [
+        {d:"01", dt:"19 Feb", s:"5:05", i:"18:02"}, {d:"02", dt:"20 Feb", s:"5:04", i:"18:03"},
+        {d:"03", dt:"21 Feb", s:"5:03", i:"18:03"}, {d:"04", dt:"22 Feb", s:"5:02", i:"18:04"},
+        {d:"05", dt:"23 Feb", s:"5:01", i:"18:04"}, {d:"06", dt:"24 Feb", s:"5:00", i:"18:05"},
+        {d:"07", dt:"25 Feb", s:"4:59", i:"18:05"}, {d:"08", dt:"26 Feb", s:"4:58", i:"18:06"},
+        {d:"09", dt:"27 Feb", s:"4:57", i:"18:06"}, {d:"10", dt:"28 Feb", s:"4:56", i:"18:07"},
+        {d:"11", dt:"01 Mar", s:"4:55", i:"18:07"}, {d:"12", dt:"02 Mar", s:"4:54", i:"18:08"},
+        {d:"13", dt:"03 Mar", s:"4:53", i:"18:08"}, {d:"14", dt:"04 Mar", s:"4:52", i:"18:09"},
+        {d:"15", dt:"05 Mar", s:"4:51", i:"18:09"}, {d:"16", dt:"06 Mar", s:"4:50", i:"18:10"},
+        {d:"17", dt:"07 Mar", s:"4:49", i:"18:10"}, {d:"18", dt:"08 Mar", s:"4:48", i:"18:11"},
+        {d:"19", dt:"09 Mar", s:"4:47", i:"18:11"}, {d:"20", dt:"10 Mar", s:"4:46", i:"18:12"},
+        {d:"21", dt:"11 Mar", s:"4:45", i:"18:12"}, {d:"22", dt:"12 Mar", s:"4:44", i:"18:13"},
+        {d:"23", dt:"13 Mar", s:"4:43", i:"18:13"}, {d:"24", dt:"14 Mar", s:"4:42", i:"18:14"},
+        {d:"25", dt:"15 Mar", s:"4:41", i:"18:14"}, {d:"26", dt:"16 Mar", s:"4:40", i:"18:15"},
+        {d:"27", dt:"17 Mar", s:"4:39", i:"18:15"}, {d:"28", dt:"18 Mar", s:"4:38", i:"18:16"},
+        {d:"29", dt:"19 Mar", s:"4:37", i:"18:16"}, {d:"30", dt:"20 Mar", s:"4:36", i:"18:17"}
     ];
 
-    const offsets = {
-        "dhaka": {s:0, i:0},
-        "chattogram": {s:4, i:5},
-        "sylhet": {s:6, i:7},
-        "rajshahi": {s:-6, i:-7},
-        "khulna": {s:-5, i:-6},
-        "rangpur": {s:-5, i:-6},
-        "barishal": {s:2, i:3},
-        "dinajpur": {s:-7, i:-8}
-    };
+    // Quran Data (Sample)
+    const surahs = [
+        {id: 1, name: "সূরা আল-ফাতিহা", ayahs: ["بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ", "اَلْحَمْدُ لِلّٰهِ رَبِّ الْعٰلَمِيْنَ", "الرَّحْمٰنِ الرَّحِيْمِ", "مٰلِكِ يَوْمِ الدِّيْنِ", "اِيَّاكَ نَعْبُدُ وَاِيَّاكَ نَسْتَعِيْنُ", "اِهْدِنَا الصِّرَاطَ الْمُسْتَقِيْمَ", "صِرَاطَ الَّذِيْنَ اَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوْبِ عَلَيْهِمْ وَلَا الضَّآلِّيْنَ"]},
+        {id: 2, name: "সূরা আল-ইখলাস", ayahs: ["قُلْ هُوَ اللّٰهُ اَحَدٌ", "اَللّٰهُ الصَّمَدُ", "لَمْ يَلِدْ وَلَمْ يُوْلَدْ", "وَلَمْ يَكُنْ لَّهٗ كُفُوًا اَحَدٌ"]},
+        {id: 3, name: "সূরা আল-ফালাক", ayahs: ["قُلْ اَعُوْذُ بِرَبِّ الْفَلَقِ", "مِنْ شَرِّ مَا خَلَقَ", "وَمِنْ شَرِّ غَاسِقٍ اِذَا وَقَبَ", "وَمِنْ شَرِّ النَّفّٰثٰتِ فِى الْعُقَدِ", "وَمِنْ شَرِّ حَاسِدٍ اِذَا حَسَدَ"]}
+    ];
 
-    // Helper Functions
-    const bnNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
-    const bnDays = { 'Sat': 'শনি', 'Sun': 'রবি', 'Mon': 'সোম', 'Tue': 'মঙ্গল', 'Wed': 'বুধ', 'Thu': 'বৃহস্পতি', 'Fri': 'শুক্র' };
-    
-    function toBn(str) { return String(str).replace(/[0-9]/g, d => bnNums[d]); }
-    function toBnDay(d) { return bnDays[d] || d; }
+    const duas = [
+        {t:"সকালের দোয়া", ar:"بِسْمِ اللّٰهِ الَّذِيْ لَا يَضُرُّ مَعَ اسْمِهٖ شَيْءٌ فِي الْاَرْضِ وَلَا فِي السَّمَاءِ", bn:"আল্লাহর নামে শুরু করছি যার নামে আসমান ও জমিনে কোনো কিছু ক্ষতি করতে পারে না।"},
+        {t:"ঘুমের দোয়া", ar:"بِاسْمِكَ اللّٰهُمَّ اَمُوْتُ وَاَحْيَا", bn:"হে আল্লাহ! আপনার নামে মরি এবং বাঁচি।"}
+    ];
 
-    function getMins(t) { let p=t.split(':'); return parseInt(p[0])*60+parseInt(p[1]); }
-    
-    function adjTime(t, change) {
-        let total = getMins(t) + change;
-        if(total < 0) total += 1440;
-        if(total >= 1440) total -= 1440;
-        let h = Math.floor(total/60);
-        let m = total % 60;
-        return `${h}:${m<10?'0'+m:m}`;
-    }
+    // ===== SYSTEM STATE =====
+    let loc = localStorage.getItem('loc') || 'dhaka';
+    let tasbih = parseInt(localStorage.getItem('tasbih')) || 0;
+    let streak = parseInt(localStorage.getItem('streak')) || 0;
+    let lastAlarm = "";
 
-    function fmt12(t) {
-        let [h, m] = t.split(':'); h=parseInt(h);
-        let ampm = h >= 12 ? 'PM' : 'AM';
-        h = h % 12; h = h ? h : 12;
-        return `${h}:${m} ${ampm}`;
-    }
-
-    // State Variables
-    let currentViewIndex = 0; // Index in rData array
-    let timerTarget = null; // Date object for countdown
-    
-    // Initialize
+    // ===== CORE FUNCTIONS =====
     function init() {
-        const now = new Date();
-        const y = now.getFullYear();
+        document.getElementById('locSelect').value = loc;
+        document.getElementById('tasbihVal').innerText = tasbih;
+        document.getElementById('streakCount').innerText = streak;
         
-        // Display Current Date
-        const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-        document.getElementById('fullDate').innerText = now.toLocaleDateString('bn-BD', opts);
+        // Render Lists
+        renderPrayers();
+        renderRamadan();
+        renderQuran();
+        
+        // Start Clock
+        updateClock();
+        setInterval(updateClock, 1000);
+        
+        // Init Compass
+        initCompass();
+        
+        // Hide Splash
+        setTimeout(() => { document.getElementById('splash').style.opacity = '0'; setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 500); }, 2000);
+    }
 
-        // Find Today's Index in 2026 Ramadan
-        if (y === 2026) {
-            const start = new Date('2026-02-19T00:00:00');
-            const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-            if (diff >= 0 && diff < 30) currentViewIndex = diff;
-        } else {
-            // If not 2026, show Day 1 as demo
-            currentViewIndex = 0;
+    // Navigation
+    function openPage(p) {
+        document.querySelectorAll('.page').forEach(e => e.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(e => e.classList.remove('active'));
+        document.getElementById('p-'+p).classList.add('active');
+        if(event.currentTarget) event.currentTarget.classList.add('active');
+    }
+
+    function openLoc() { openPage('settings'); }
+
+    // Theme
+    function toggleTheme() {
+        document.body.classList.toggle('light-theme');
+        let icon = document.querySelector('#themeBtn i');
+        icon.classList.toggle('fa-moon'); icon.classList.toggle('fa-sun');
+    }
+
+    // Location Update
+    function updateLoc() {
+        loc = document.getElementById('locSelect').value;
+        localStorage.setItem('loc', loc);
+        renderPrayers();
+        renderRamadan();
+    }
+
+    // ===== TIME & PRAYER LOGIC =====
+    function getMins(t) { let p=t.split(':'); return parseInt(p[0])*60+parseInt(p[1]); }
+    function adjTime(t, c) { let m=getMins(t)+c; if(m<0)m+=1440; if(m>=1440)m-=1440; let h=Math.floor(m/60); let mn=m%60; return `${h}:${mn<10?'0'+mn:mn}`; }
+    function fmt(t) { let [h,m]=t.split(':'); h=parseInt(h); let ap=h>=12?'PM':'AM'; h=h%12; h=h?h:12; return `${h}:${m} ${ap}`; }
+
+    function updateClock() {
+        const now = new Date();
+        document.getElementById('liveTime').innerText = now.toLocaleTimeString('en-US', {hour12:false});
+        document.getElementById('gDate').innerText = now.toLocaleDateString('bn-BD', { dateStyle: 'full' });
+        
+        // Approx Hijri (Simple Calculation)
+        // Note: For exact Hijri, a library is needed. This is a placeholder.
+        let hDate = "১৫ শা'বান ১৪৪৭"; 
+        // Logic to approximate could be added here
+        document.getElementById('hDate').innerText = hDate + " হিজরি";
+
+        // Prayer Logic
+        let off = offsets[loc];
+        let pList = [
+            {n:"ফজর", t:adjTime(times.fajr, off.s), id:"fajr"},
+            {n:"যোহর", t:adjTime(times.dhuhr, off.s), id:"dhuhr"},
+            {n:"আসর", t:adjTime(times.asr, off.s), id:"asr"},
+            {n:"মাগরিব", t:adjTime(times.maghrib, off.i), id:"maghrib"},
+            {n:"ইশা", t:adjTime(times.isha, off.s), id:"isha"}
+        ];
+
+        let currMins = now.getHours()*60 + now.getMinutes();
+        let next = null;
+
+        pList.forEach(p => {
+            let pMins = getMins(p.t);
+            // Update visual style
+            let row = document.getElementById('row-'+p.id);
+            if(row) {
+                if(pMins < currMins) row.style.opacity = "0.5";
+                else row.style.opacity = "1";
+            }
+            
+            if(!next && pMins > currMins) {
+                next = {name: p.n, mins: pMins, t: p.t};
+            }
+        });
+
+        if(!next) { // Next Fajr
+            let fMins = getMins(adjTime(times.fajr, off.s)) + 1440;
+            next = {name: "ফজর", mins: fMins, t: adjTime(times.fajr, off.s)};
         }
 
-        renderTable();
-        updateAll();
-        setInterval(runTimer, 1000);
-    }
-
-    // Change Day via Buttons
-    function changeDay(dir) {
-        currentViewIndex += dir;
-        if(currentViewIndex < 0) currentViewIndex = 0;
-        if(currentViewIndex > 29) currentViewIndex = 29;
-        updateAll();
-    }
-
-    // Update Main UI
-    function updateAll() {
-        const dist = document.getElementById('distSelect').value;
-        const off = offsets[dist];
-        const data = rData[currentViewIndex];
+        document.getElementById('nextName').innerText = next.name;
         
-        // Calculate Times
-        let s24 = adjTime(data.s, off.s);
-        let i24 = adjTime(data.i, off.i);
-        
-        // Update Cards
-        document.getElementById('dayNum').innerText = toBn(data.d);
-        document.getElementById('dayDate').innerText = toBn(data.dt) + ", " + toBnDay(data.day);
-        document.getElementById('tSehri').innerText = toBn(fmt12(s24));
-        document.getElementById('tIftar').innerText = toBn(fmt12(i24));
-        
-        // Update Namaz
-        document.getElementById('nFajr').innerText = toBn(fmt12(s24)); // Fajr ~ Sehri end
-        document.getElementById('nDhuhr').innerText = toBn(fmt12(adjTime("12:05", Math.round(off.s/2))));
-        document.getElementById('nAsr').innerText = toBn(fmt12(adjTime("16:15", Math.round(off.s/2))));
-        document.getElementById('nMaghrib').innerText = toBn(fmt12(i24)); // Maghrib ~ Iftar
-        document.getElementById('nIsha').innerText = toBn(fmt12(adjTime(i24, 80)));
+        // Countdown
+        let diff = (next.mins - currMins)*60 - now.getSeconds();
+        let h = Math.floor(diff/3600); let m = Math.floor((diff%3600)/60); let s = diff%60;
+        document.getElementById('nextCount').innerText = 
+            `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
 
-        // Set Timer Target
-        setTimerTarget(s24, i24);
-        
-        // Highlight Table
-        highlightRow(currentViewIndex);
-    }
-
-    // Timer Logic
-    function setTimerTarget(sTime, iTime) {
-        const now = new Date();
-        let [sh, sm] = sTime.split(':');
-        let sDate = new Date(); sDate.setHours(sh, sm, 0, 0);
-        
-        let [ih, im] = iTime.split(':');
-        let iDate = new Date(); iDate.setHours(ih, im, 0, 0);
-
-        if (now < sDate) {
-            timerTarget = sDate;
-            document.getElementById('timerLabel').innerText = "সেহরি বাকি";
-        } else if (now < iDate) {
-            timerTarget = iDate;
-            document.getElementById('timerLabel').innerText = "ইফতার বাকি";
-        } else {
-            // After Iftar, set to next day Sehri
-            let nextS = new Date(sDate);
-            nextS.setDate(nextS.getDate() + 1);
-            timerTarget = nextS;
-            document.getElementById('timerLabel').innerText = "পরবর্তী সেহরি বাকি";
+        // Azan Check
+        if(document.getElementById('soundToggle').checked) {
+            let currStr = `${now.getHours()}:${now.getMinutes()}`;
+            pList.forEach(p => {
+                let pStr = p.t;
+                if(currStr == pStr && lastAlarm != pStr) {
+                    triggerAzan(p.n);
+                    lastAlarm = pStr;
+                }
+            });
         }
     }
 
-    function runTimer() {
-        const now = new Date();
-        const diff = timerTarget - now;
-
-        if (diff <= 0) {
-            document.getElementById('timerDisplay').innerHTML = "সময় শুরু!";
-            // Re-evaluate target immediately
-            updateAll(); 
-            return;
-        }
-
-        const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-        const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-        const s = Math.floor((diff % (1000*60)) / 1000);
-
-        document.getElementById('timerDisplay').innerHTML = 
-            `${h}<span>ঘ:</span>${m}<span>মি:</span>${s}<span>সে:</span>`;
-    }
-
-    // Table Rendering
-    function renderTable() {
-        const tbody = document.querySelector("#calTable tbody");
-        const dist = document.getElementById('distSelect').value;
-        const off = offsets[dist];
+    function renderPrayers() {
+        let off = offsets[loc];
+        let list = document.getElementById('prayerList');
+        list.innerHTML = '';
+        let pList = [
+            {n:"ফজর", t:adjTime(times.fajr, off.s), id:"fajr"},
+            {n:"যোহর", t:adjTime(times.dhuhr, off.s), id:"dhuhr"},
+            {n:"আসর", t:adjTime(times.asr, off.s), id:"asr"},
+            {n:"মাগরিব", t:adjTime(times.maghrib, off.i), id:"maghrib"},
+            {n:"ইশা", t:adjTime(times.isha, off.s), id:"isha"}
+        ];
         
-        let html = '';
-        rData.forEach((item, idx) => {
-            let s = adjTime(item.s, off.s);
-            let i = adjTime(item.i, off.i);
-            html += `
-                <tr id="row-${idx}">
-                    <td>${toBn(item.d)}</td>
-                    <td>${toBn(item.dt)}</td>
-                    <td>${toBnDay(item.day)}</td>
-                    <td>${toBn(fmt12(s))}</td>
-                    <td>${toBn(fmt12(i))}</td>
-                </tr>
+        let saved = JSON.parse(localStorage.getItem('prayers')) || {};
+
+        pList.forEach(p => {
+            let done = saved[p.id] || false;
+            list.innerHTML += `
+                <div class="prayer-row" id="row-${p.id}">
+                    <div class="p-name">${p.n}</div>
+                    <div class="p-time">${fmt(p.t)}</div>
+                    <div class="p-check ${done ? 'done' : ''}" onclick="togglePrayer('${p.id}')">
+                        ${done ? '<i class="fa-solid fa-check"></i>' : ''}
+                    </div>
+                </div>
             `;
         });
-        tbody.innerHTML = html;
     }
 
-    function highlightRow(idx) {
-        // Remove previous highlight
-        document.querySelectorAll('#calTable tr').forEach(r => r.classList.remove('active-day'));
-        // Add new highlight
-        const row = document.getElementById(`row-${idx}`);
-        if(row) row.classList.add('active-day');
+    function togglePrayer(id) {
+        let saved = JSON.parse(localStorage.getItem('prayers')) || {};
+        saved[id] = !saved[id];
+        localStorage.setItem('prayers', JSON.stringify(saved));
+        
+        // Check streak (simple logic: if all 5 done)
+        if(Object.keys(saved).filter(k=>saved[k]).length === 5) {
+            let lastDate = localStorage.getItem('lastPrayerDate');
+            let today = new Date().toDateString();
+            if(lastDate !== today) {
+                streak++;
+                localStorage.setItem('streak', streak);
+                localStorage.setItem('lastPrayerDate', today);
+                document.getElementById('streakCount').innerText = streak;
+            }
+        }
+        renderPrayers();
     }
 
-    // Init on load
+    // ===== RAMADAN =====
+    function renderRamadan() {
+        let off = offsets[loc];
+        let list = document.getElementById('ramadanList');
+        list.innerHTML = '';
+        
+        // Determine current day index (Demo: Day 1)
+        let idx = 0;
+        const now = new Date();
+        if(now.getFullYear() === 2026) {
+            const start = new Date('2026-02-19');
+            const diff = Math.floor((now - start) / (1000*60*60*24));
+            if(diff >=0 && diff < 30) idx = diff;
+        }
+        
+        // Update Main Card
+        let d = ramadanData[idx];
+        document.getElementById('rozaNum').innerText = d.d;
+        document.getElementById('sehriTime').innerText = fmt(adjTime(d.s, off.s));
+        document.getElementById('iftarTime').innerText = fmt(adjTime(d.i, off.i));
+        
+        // Progress
+        let prog = ((idx + 1) / 30) * 100;
+        document.getElementById('progressBar').style.width = prog + '%';
+        document.getElementById('progressTxt').innerText = Math.round(prog) + '%';
+
+        // List
+        ramadanData.forEach((item, i) => {
+            let h = i == idx ? 'active-day' : '';
+            list.innerHTML += `
+                <div class="prayer-row ${h}" style="padding:8px 0;">
+                    <span style="width:30px; color:var(--primary); font-weight:bold;">${item.d}</span>
+                    <span style="flex:1; font-size:12px; color:var(--txt-muted);">${item.dt}</span>
+                    <span style="font-size:12px;">সেহরি: ${fmt(adjTime(item.s, off.s))}</span>
+                    <span style="font-size:12px; color:var(--primary);">ইফতার: ${fmt(adjTime(item.i, off.i))}</span>
+                </div>
+            `;
+        });
+    }
+
+    // ===== TOOLS =====
+    function initCompass() {
+        if(window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                if(e.alpha) {
+                    let rot = 278 - e.alpha; // Approx Qibla for BD
+                    document.getElementById('needle').style.transform = `translateX(-50%) rotate(${rot}deg)`;
+                }
+            });
+        }
+    }
+
+    function countTasbih() {
+        tasbih++;
+        localStorage.setItem('tasbih', tasbih);
+        document.getElementById('tasbihVal').innerText = tasbih;
+        if(navigator.vibrate) navigator.vibrate(20);
+    }
+    function resetTasbih() {
+        tasbih = 0; localStorage.setItem('tasbih', 0);
+        document.getElementById('tasbihVal').innerText = 0;
+    }
+
+    function calcZakat() {
+        let g = parseFloat(document.getElementById('zGold').value) || 0;
+        let c = parseFloat(document.getElementById('zCash').value) || 0;
+        let d = parseFloat(document.getElementById('zDebt').value) || 0;
+        let tot = g + c + d;
+        let nisab = 530000; // Approx
+        if(tot >= nisab) {
+            let z = tot * 0.025;
+            document.getElementById('zakatRes').innerText = "যাকাত: " + z.toFixed(2) + " টাকা";
+        } else {
+            document.getElementById('zakatRes').innerText = "যাকাত ওয়াজিব নয় (নিসাব নেই)";
+        }
+    }
+
+    // ===== QURAN & DUAS =====
+    function renderQuran() {
+        let sList = document.getElementById('surahList');
+        surahs.forEach(s => {
+            sList.innerHTML += `<div class="surah-item" onclick="openSurah(${s.id})"><i class="fa-solid fa-book-open" style="color:var(--primary); margin-right:10px;"></i>${s.name}</div>`;
+        });
+        
+        let dList = document.getElementById('duaList');
+        duas.forEach(d => {
+            dList.innerHTML += `
+                <div class="dua-item">
+                    <div style="font-weight:bold; color:#fff; margin-bottom:5px;">${d.t}</div>
+                    <div class="arabic-text">${d.ar}</div>
+                    <div class="bangla-text">${d.bn}</div>
+                </div>
+            `;
+        });
+    }
+
+    function openSurah(id) {
+        let s = surahs.find(x => x.id === id);
+        document.getElementById('sTitle').innerText = s.name;
+        let content = '';
+        s.ayahs.forEach((a, i) => {
+            content += `<div style="margin-bottom:15px;"><span style="color:var(--primary); font-size:12px;">আয়াত ${i+1}</span><div class="arabic-text">${a}</div></div>`;
+        });
+        document.getElementById('sAyahs').innerHTML = content;
+        document.getElementById('quranModal').style.display = 'flex';
+    }
+    function closeQuran() { document.getElementById('quranModal').style.display = 'none'; }
+    function playAudio() { alert("অডিও ফিচারটি অনলাইন ডাটাবেসের মাধ্যমে সম্পূর্ণ ভার্সনে কাজ করবে।"); }
+
+    // ===== AZAN SYSTEM =====
+    function triggerAzan(name) {
+        document.getElementById('azanName').innerText = name;
+        document.getElementById('azanModal').style.display = 'flex';
+        document.getElementById('azanAudio').play().catch(e => console.log("Play blocked"));
+        if(navigator.vibrate) navigator.vibrate([300, 100, 300]);
+    }
+    function stopAzan() {
+        document.getElementById('azanModal').style.display = 'none';
+        document.getElementById('azanAudio').pause();
+        document.getElementById('azanAudio').currentTime = 0;
+    }
+
+    // ===== UTILS =====
+    function shareApp() {
+        if(navigator.share) {
+            navigator.share({ title: 'ইসলামিক প্রো অ্যাপ', url: window.location.href });
+        } else { alert("শেয়ার অপশন এই ব্রাউজারে সাপোর্টেড নয়।"); }
+    }
+
     init();
 
 </script>
