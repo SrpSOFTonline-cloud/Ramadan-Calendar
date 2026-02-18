@@ -1,252 +1,547 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadan Calendar 2026</title>
+<title>রমজান ক্যালেন্ডার ২০২৬ | অটো আপডেট</title>
+
+<!-- Fonts & Icons -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;800&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
+    :root {
+        --primary-gold: #D4AF37;
+        --primary-green: #1B5E20;
+        --bg-main: #0a1f0a;
+        --card-bg: rgba(26, 44, 30, 0.85);
+        --text-light: #E8F5E9;
+        --accent-red: #ff5252;
+    }
 
-/* ===== BASIC ===== */
-*{box-sizing:border-box;}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+        font-family: 'Noto Sans Bengali', sans-serif;
+        background: linear-gradient(135deg, #050d05 0%, #0a1f0a 100%);
+        color: var(--text-light);
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
 
-body{
-margin:0;
-font-family:Arial,sans-serif;
-color:white;
-overflow-x:hidden;
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 15px;
+    }
 
-/* YOUR BACKGROUND IMAGE */
-background:url('bg.jpg') no-repeat center center fixed;
-background-size:cover;
-}
+    /* Header */
+    header {
+        text-align: center;
+        padding: 30px 10px 20px;
+        position: relative;
+    }
 
-/* LIGHT / DARK MODE */
-.light-theme{
-background:url('bg.jpg') no-repeat center center fixed;
-background-size:cover;
-color:white;
-}
+    h1 {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--primary-gold);
+        text-shadow: 0 2px 10px rgba(212, 175, 55, 0.4);
+        margin-bottom: 5px;
+    }
 
-.dark-theme{
-background:#0f172a;
-background-image:none;
-color:white;
-}
+    .date-badge {
+        display: inline-block;
+        background: var(--primary-green);
+        color: #fff;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        border: 1px solid var(--primary-gold);
+    }
 
-/* ===== CONTAINER ===== */
-.container{
-width:100%;
-max-width:1200px;
-margin:auto;
-padding:10px;
-}
+    /* District Selector */
+    .top-bar {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
 
-/* ===== THEME BUTTON ===== */
-.darktheme{
-width:40px;
-height:40px;
-border-radius:50%;
-background:#fff;
-position:fixed;
-top:15px;
-right:15px;
-cursor:pointer;
-z-index:999;
-box-shadow:0 0 10px rgba(0,0,0,.4);
-}
+    select {
+        background: #132913;
+        color: #fff;
+        border: 1px solid var(--primary-gold);
+        padding: 8px 15px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+    }
 
-/* ===== HERO ===== */
-.hero-wrapper{
-display:flex;
-gap:20px;
-flex-wrap:wrap;
-}
+    /* Countdown Section */
+    .countdown-box {
+        background: radial-gradient(circle at top, #1e4620, #0a1f0a);
+        border: 2px solid var(--primary-gold);
+        border-radius: 20px;
+        padding: 30px 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Islamic Pattern Overlay */
+    .countdown-box::before {
+        content: '';
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIiBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiIHN0cm9rZS13aWR0aD0iMSI+PHBhdGggZD0iTTMwIDBWMzBNNjAgMzBIMzBNNjAgMEwzMCAzME0wIDYwTDMwIDMwTTAgMEwzMCAzME0zMCAzME0zMCA2ME0zMCAzME02MCAzMCIvPjwvc3ZnPg==');
+        opacity: 0.3;
+    }
 
-.ramadan-text,
-.ramadan-time{
-flex:1 1 320px;
-}
+    .status-text {
+        font-size: 18px;
+        color: var(--primary-gold);
+        margin-bottom: 10px;
+        font-weight: 600;
+        z-index: 1;
+        position: relative;
+    }
 
-.ramadan-time{
-background:rgba(0,0,0,0.6);
-padding:15px;
-border-radius:10px;
-}
+    .timer-val {
+        font-family: 'Rajdhani', sans-serif; /* English font for timer */
+        font-size: 60px;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1;
+        text-shadow: 0 0 20px rgba(255,255,255,0.3);
+        z-index: 1;
+        position: relative;
+    }
 
-/* ===== TABLE ===== */
-.date-table{
-margin-top:20px;
-overflow-x:auto;
--webkit-overflow-scrolling:touch;
-}
+    .timer-val span {
+        font-size: 20px;
+        color: #aaa;
+        margin-left: 3px;
+    }
 
-table{
-width:100%;
-min-width:650px;
-border-collapse:collapse;
-background:rgba(0,0,0,0.6);
-}
+    /* Navigation & Info */
+    .nav-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,255,255,0.1);
+        position: relative;
+    }
 
-th,td{
-padding:10px;
-border:1px solid #444;
-text-align:center;
-white-space:nowrap;
-}
+    .nav-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
 
-th{
-background:#334155;
-}
+    .nav-btn {
+        background: transparent;
+        border: 1px solid var(--primary-gold);
+        color: var(--primary-gold);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
 
-/* ===== DEVELOPER ===== */
-.developer{
-text-align:center;
-padding:20px;
-font-size:14px;
-background:rgba(0,0,0,0.5);
-margin-top:20px;
-}
+    .nav-btn:hover {
+        background: var(--primary-gold);
+        color: #000;
+    }
 
-/* ===== MOBILE ===== */
-@media(max-width:768px){
-h1{font-size:22px;text-align:center;}
-.hero-wrapper{flex-direction:column;}
-.ramadan-text,.ramadan-time{width:100%;}
-#digitalClock{text-align:center;font-size:20px;}
-table{font-size:13px;}
-th,td{padding:8px;}
-}
+    .current-roza {
+        text-align: center;
+    }
+    
+    .roza-num {
+        font-size: 40px;
+        font-weight: 800;
+        color: #fff;
+    }
+    
+    .roza-label {
+        font-size: 14px;
+        color: #aaa;
+    }
 
-@media(max-width:480px){
-h1{font-size:20px;}
-table{font-size:12px;}
-th,td{padding:6px;}
-}
+    .time-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .time-block {
+        background: rgba(0,0,0,0.2);
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+    }
+
+    .time-block h5 { font-size: 12px; color: #aaa; margin-bottom: 5px; }
+    .time-block h3 { font-size: 22px; color: var(--primary-gold); font-weight: 800; }
+    .sehri-color { color: #4ADE80; }
+    .iftar-color { color: #FB923C; }
+
+    /* Namaz Time */
+    .namaz-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 5px;
+        margin-top: 15px;
+        text-align: center;
+    }
+    .namaz-item p { font-size: 10px; color: #aaa; margin-bottom: 2px; }
+    .namaz-item h6 { font-size: 13px; color: #fff; }
+
+    /* Table */
+    .table-container {
+        overflow-x: auto;
+        border-radius: 10px;
+        border: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 20px;
+    }
+    
+    table { width: 100%; border-collapse: collapse; text-align: center; }
+    th { background: #1B5E20; color: #fff; padding: 10px 5px; font-size: 12px; }
+    td { padding: 10px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+    tr:hover { background: rgba(255,255,255,0.03); }
+    
+    .active-day {
+        background: rgba(212, 175, 55, 0.2) !important;
+        border-left: 3px solid var(--primary-gold);
+    }
+    .active-day td { font-weight: bold; color: #fff; }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 20px;
+        border-top: 1px solid rgba(255,255,255,0.1);
+        color: #666;
+        font-size: 12px;
+    }
+    .dev-badge {
+        display: inline-block;
+        background: #1B5E20;
+        padding: 10px 20px;
+        border-radius: 30px;
+        margin-top: 10px;
+        color: #fff;
+        border: 1px solid var(--primary-gold);
+    }
 
 </style>
 </head>
+<body>
 
-<body class="light-theme">
-
-<div class="darktheme" id="themeBtn"></div>
-
-<div class="hero-box">
 <div class="container">
+    
+    <header>
+        <h1>পবিত্র রমজান ২০২৬</h1>
+        <div class="date-badge" id="fullDate">তারিখ লোড হচ্ছে...</div>
+    </header>
 
-<div class="hero-wrapper">
+    <!-- District Selector -->
+    <div class="top-bar">
+        <i class="fa-solid fa-location-dot" style="color:var(--primary-gold); line-height:35px;"></i>
+        <select id="distSelect" onchange="updateAll()">
+            <option value="dhaka">ঢাকা (স্ট্যান্ডার্ড)</option>
+            <option value="chattogram">চট্টগ্রাম (+৪ মিঃ)</option>
+            <option value="sylhet">সিলেট (+৬ মিঃ)</option>
+            <option value="rajshahi">রাজশাহী (-৬ মিঃ)</option>
+            <option value="khulna">খুলনা (-৫ মিঃ)</option>
+            <option value="rangpur">রংপুর (-৫ মিঃ)</option>
+            <option value="barishal">বরিশাল (+২ মিঃ)</option>
+            <option value="dinajpur">দিনাজপুর (-৭ মিঃ)</option>
+        </select>
+    </div>
 
-<div class="ramadan-text">
-<h1>Ramadan Kareem</h1>
-<span>Sahri and Iftar Time Schedule</span>
-<p>Ramadan Calendar 2026</p>
-<h2 id="digitalClock"></h2>
-</div>
+    <!-- Countdown Timer -->
+    <div class="countdown-box">
+        <div class="status-text" id="timerLabel">ইফতার বাকি</div>
+        <div class="timer-val" id="timerDisplay">--:--:--</div>
+    </div>
 
-<div class="ramadan-time">
-<h4>Today's schedule</h4>
+    <!-- Day Info & Controls -->
+    <div class="nav-card">
+        <div class="nav-controls">
+            <button class="nav-btn" onclick="changeDay(-1)"><i class="fa-solid fa-arrow-left"></i></button>
+            <div class="current-roza">
+                <div class="roza-num" id="dayNum">--</div>
+                <div class="roza-label" id="dayDate">রমজান</div>
+            </div>
+            <button class="nav-btn" onclick="changeDay(1)"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
 
-<div>
-<span><b id="todayRoza">01</b> Ramadan</span>
-<p>Date/Time: <span id="datetime"></span></p>
-<p id="todayDateOnly"></p>
-</div>
+        <!-- Sehri Iftar Time -->
+        <div class="time-grid">
+            <div class="time-block">
+                <h5>সেহরি শেষ</h5>
+                <h3 class="sehri-color" id="tSehri">--:--</h3>
+            </div>
+            <div class="time-block">
+                <h5>ইফতার</h5>
+                <h3 class="iftar-color" id="tIftar">--:--</h3>
+            </div>
+        </div>
 
-<ul>
-<li>sehri <b id="sehriTime">- --</b></li>
-<li>sunrise <b id="sunriseTime">- --</b></li>
-<li>ifter <b id="ifterTime">- --</b></li>
-</ul>
-</div>
+        <!-- Namaz Times -->
+        <div class="namaz-grid">
+            <div class="namaz-item"><p>ফজর</p><h6 id="nFajr">--:--</h6></div>
+            <div class="namaz-item"><p>যোহর</p><h6 id="nDhuhr">--:--</h6></div>
+            <div class="namaz-item"><p>আসর</p><h6 id="nAsr">--:--</h6></div>
+            <div class="namaz-item"><p>মাগরিব</p><h6 id="nMaghrib">--:--</h6></div>
+            <div class="namaz-item"><p>ইশা</p><h6 id="nIsha">--:--</h6></div>
+        </div>
+    </div>
 
-</div>
-</div>
-</div>
+    <!-- Full Calendar Table -->
+    <div class="table-container">
+        <table id="calTable">
+            <thead>
+                <tr><th>রমজান</th><th>তারিখ</th><th>দিন</th><th>সেহরি</th><th>ইফতার</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
-<div class="ramadan-date">
-<div class="container">
-<div class="date-table">
+    <!-- Developer Credit -->
+    <footer>
+        <div class="dev-badge">
+            <span style="color:#D4AF37;">Developed by</span> <b>Md. Shovon</b> | SRP Soft Ltd
+        </div>
+        <p style="margin-top:10px;">Helpline: 096060547</p>
+    </footer>
 
-<h2>Ramadan 30 Days Calendar</h2>
-
-<table id="ramadanTable">
-<tr>
-<th>Ramadan</th><th>Date</th><th>Day</th><th>Sehri</th><th>Sunrise</th><th>Ifter</th>
-</tr>
-
-<tr><td>01</td><td>19 Feb 2026</td><td>Thu</td><td>5:05 AM</td><td>6:26 AM</td><td>6:02 PM</td></tr>
-<tr><td>02</td><td>20 Feb 2026</td><td>Fri</td><td>5:04 AM</td><td>6:25 AM</td><td>6:03 PM</td></tr>
-<tr><td>03</td><td>21 Feb 2026</td><td>Sat</td><td>5:03 AM</td><td>6:24 AM</td><td>6:03 PM</td></tr>
-<tr><td>04</td><td>22 Feb 2026</td><td>Sun</td><td>5:02 AM</td><td>6:23 AM</td><td>6:04 PM</td></tr>
-<tr><td>05</td><td>23 Feb 2026</td><td>Mon</td><td>5:01 AM</td><td>6:22 AM</td><td>6:04 PM</td></tr>
-<tr><td>06</td><td>24 Feb 2026</td><td>Tue</td><td>5:00 AM</td><td>6:21 AM</td><td>6:05 PM</td></tr>
-<tr><td>07</td><td>25 Feb 2026</td><td>Wed</td><td>4:59 AM</td><td>6:20 AM</td><td>6:05 PM</td></tr>
-<tr><td>08</td><td>26 Feb 2026</td><td>Thu</td><td>4:58 AM</td><td>6:19 AM</td><td>6:06 PM</td></tr>
-<tr><td>09</td><td>27 Feb 2026</td><td>Fri</td><td>4:57 AM</td><td>6:18 AM</td><td>6:06 PM</td></tr>
-<tr><td>10</td><td>28 Feb 2026</td><td>Sat</td><td>4:56 AM</td><td>6:17 AM</td><td>6:07 PM</td></tr>
-
-<tr><td>11</td><td>01 Mar 2026</td><td>Sun</td><td>4:55 AM</td><td>6:16 AM</td><td>6:07 PM</td></tr>
-<tr><td>12</td><td>02 Mar 2026</td><td>Mon</td><td>4:54 AM</td><td>6:15 AM</td><td>6:08 PM</td></tr>
-<tr><td>13</td><td>03 Mar 2026</td><td>Tue</td><td>4:53 AM</td><td>6:14 AM</td><td>6:08 PM</td></tr>
-<tr><td>14</td><td>04 Mar 2026</td><td>Wed</td><td>4:52 AM</td><td>6:13 AM</td><td>6:09 PM</td></tr>
-<tr><td>15</td><td>05 Mar 2026</td><td>Thu</td><td>4:51 AM</td><td>6:12 AM</td><td>6:09 PM</td></tr>
-<tr><td>16</td><td>06 Mar 2026</td><td>Fri</td><td>4:50 AM</td><td>6:11 AM</td><td>6:10 PM</td></tr>
-<tr><td>17</td><td>07 Mar 2026</td><td>Sat</td><td>4:49 AM</td><td>6:10 AM</td><td>6:10 PM</td></tr>
-<tr><td>18</td><td>08 Mar 2026</td><td>Sun</td><td>4:48 AM</td><td>6:09 AM</td><td>6:11 PM</td></tr>
-<tr><td>19</td><td>09 Mar 2026</td><td>Mon</td><td>4:47 AM</td><td>6:08 AM</td><td>6:11 PM</td></tr>
-<tr><td>20</td><td>10 Mar 2026</td><td>Tue</td><td>4:46 AM</td><td>6:07 AM</td><td>6:12 PM</td></tr>
-
-<tr><td>21</td><td>11 Mar 2026</td><td>Wed</td><td>4:45 AM</td><td>6:06 AM</td><td>6:12 PM</td></tr>
-<tr><td>22</td><td>12 Mar 2026</td><td>Thu</td><td>4:44 AM</td><td>6:05 AM</td><td>6:13 PM</td></tr>
-<tr><td>23</td><td>13 Mar 2026</td><td>Fri</td><td>4:43 AM</td><td>6:04 AM</td><td>6:13 PM</td></tr>
-<tr><td>24</td><td>14 Mar 2026</td><td>Sat</td><td>4:42 AM</td><td>6:03 AM</td><td>6:14 PM</td></tr>
-<tr><td>25</td><td>15 Mar 2026</td><td>Sun</td><td>4:41 AM</td><td>6:02 AM</td><td>6:14 PM</td></tr>
-<tr><td>26</td><td>16 Mar 2026</td><td>Mon</td><td>4:40 AM</td><td>6:01 AM</td><td>6:15 PM</td></tr>
-<tr><td>27</td><td>17 Mar 2026</td><td>Tue</td><td>4:39 AM</td><td>6:00 AM</td><td>6:15 PM</td></tr>
-<tr><td>28</td><td>18 Mar 2026</td><td>Wed</td><td>4:38 AM</td><td>5:59 AM</td><td>6:16 PM</td></tr>
-<tr><td>29</td><td>19 Mar 2026</td><td>Thu</td><td>4:37 AM</td><td>5:58 AM</td><td>6:16 PM</td></tr>
-<tr><td>30</td><td>20 Mar 2026</td><td>Fri</td><td>4:36 AM</td><td>5:57 AM</td><td>6:17 PM</td></tr>
-</table>
-
-</div>
-</div>
-</div>
-
-<div class="developer">
-<b>App Developer:</b> Md.Shovon<br>
-<b>Tel:</b> +88096060547<br>
-<b>Developer Company:</b> srp soft.ltd<br>
-<b>Sponsor:</b> sreenagar rokter bondhon
 </div>
 
 <script>
-// DIGITAL CLOCK AM/PM
-function updateClock(){
-document.getElementById("digitalClock").innerHTML =
-new Date().toLocaleTimeString('en-US',{hour12:true});
-}
-setInterval(updateClock,1000);
-updateClock();
+    // ===== RAMADAN DATA (2026) =====
+    const rData = [
+        {d:"01", dt:"19 Feb", day:"Thu", s:"5:05", i:"18:02"},
+        {d:"02", dt:"20 Feb", day:"Fri", s:"5:04", i:"18:03"},
+        {d:"03", dt:"21 Feb", day:"Sat", s:"5:03", i:"18:03"},
+        {d:"04", dt:"22 Feb", day:"Sun", s:"5:02", i:"18:04"},
+        {d:"05", dt:"23 Feb", day:"Mon", s:"5:01", i:"18:04"},
+        {d:"06", dt:"24 Feb", day:"Tue", s:"5:00", i:"18:05"},
+        {d:"07", dt:"25 Feb", day:"Wed", s:"4:59", i:"18:05"},
+        {d:"08", dt:"26 Feb", day:"Thu", s:"4:58", i:"18:06"},
+        {d:"09", dt:"27 Feb", day:"Fri", s:"4:57", i:"18:06"},
+        {d:"10", dt:"28 Feb", day:"Sat", s:"4:56", i:"18:07"},
+        {d:"11", dt:"01 Mar", day:"Sun", s:"4:55", i:"18:07"},
+        {d:"12", dt:"02 Mar", day:"Mon", s:"4:54", i:"18:08"},
+        {d:"13", dt:"03 Mar", day:"Tue", s:"4:53", i:"18:08"},
+        {d:"14", dt:"04 Mar", day:"Wed", s:"4:52", i:"18:09"},
+        {d:"15", dt:"05 Mar", day:"Thu", s:"4:51", i:"18:09"},
+        {d:"16", dt:"06 Mar", day:"Fri", s:"4:50", i:"18:10"},
+        {d:"17", dt:"07 Mar", day:"Sat", s:"4:49", i:"18:10"},
+        {d:"18", dt:"08 Mar", day:"Sun", s:"4:48", i:"18:11"},
+        {d:"19", dt:"09 Mar", day:"Mon", s:"4:47", i:"18:11"},
+        {d:"20", dt:"10 Mar", day:"Tue", s:"4:46", i:"18:12"},
+        {d:"21", dt:"11 Mar", day:"Wed", s:"4:45", i:"18:12"},
+        {d:"22", dt:"12 Mar", day:"Thu", s:"4:44", i:"18:13"},
+        {d:"23", dt:"13 Mar", day:"Fri", s:"4:43", i:"18:13"},
+        {d:"24", dt:"14 Mar", day:"Sat", s:"4:42", i:"18:14"},
+        {d:"25", dt:"15 Mar", day:"Sun", s:"4:41", i:"18:14"},
+        {d:"26", dt:"16 Mar", day:"Mon", s:"4:40", i:"18:15"},
+        {d:"27", dt:"17 Mar", day:"Tue", s:"4:39", i:"18:15"},
+        {d:"28", dt:"18 Mar", day:"Wed", s:"4:38", i:"18:16"},
+        {d:"29", dt:"19 Mar", day:"Thu", s:"4:37", i:"18:16"},
+        {d:"30", dt:"20 Mar", day:"Fri", s:"4:36", i:"18:17"}
+    ];
 
-// DATE TIME
-function updateDateTime(){
-const now=new Date();
-document.getElementById("datetime").innerHTML =
-now.toLocaleString('en-US',{hour12:true});
-document.getElementById("todayDateOnly").innerHTML =
-now.toDateString();
-}
-setInterval(updateDateTime,1000);
-updateDateTime();
+    const offsets = {
+        "dhaka": {s:0, i:0},
+        "chattogram": {s:4, i:5},
+        "sylhet": {s:6, i:7},
+        "rajshahi": {s:-6, i:-7},
+        "khulna": {s:-5, i:-6},
+        "rangpur": {s:-5, i:-6},
+        "barishal": {s:2, i:3},
+        "dinajpur": {s:-7, i:-8}
+    };
 
-// DARK MODE TOGGLE
-document.getElementById("themeBtn").onclick=function(){
-document.body.classList.toggle("dark-theme");
-document.body.classList.toggle("light-theme");
-};
+    // Helper Functions
+    const bnNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
+    const bnDays = { 'Sat': 'শনি', 'Sun': 'রবি', 'Mon': 'সোম', 'Tue': 'মঙ্গল', 'Wed': 'বুধ', 'Thu': 'বৃহস্পতি', 'Fri': 'শুক্র' };
+    
+    function toBn(str) { return String(str).replace(/[0-9]/g, d => bnNums[d]); }
+    function toBnDay(d) { return bnDays[d] || d; }
+
+    function getMins(t) { let p=t.split(':'); return parseInt(p[0])*60+parseInt(p[1]); }
+    
+    function adjTime(t, change) {
+        let total = getMins(t) + change;
+        if(total < 0) total += 1440;
+        if(total >= 1440) total -= 1440;
+        let h = Math.floor(total/60);
+        let m = total % 60;
+        return `${h}:${m<10?'0'+m:m}`;
+    }
+
+    function fmt12(t) {
+        let [h, m] = t.split(':'); h=parseInt(h);
+        let ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12; h = h ? h : 12;
+        return `${h}:${m} ${ampm}`;
+    }
+
+    // State Variables
+    let currentViewIndex = 0; // Index in rData array
+    let timerTarget = null; // Date object for countdown
+    
+    // Initialize
+    function init() {
+        const now = new Date();
+        const y = now.getFullYear();
+        
+        // Display Current Date
+        const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('fullDate').innerText = now.toLocaleDateString('bn-BD', opts);
+
+        // Find Today's Index in 2026 Ramadan
+        if (y === 2026) {
+            const start = new Date('2026-02-19T00:00:00');
+            const diff = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+            if (diff >= 0 && diff < 30) currentViewIndex = diff;
+        } else {
+            // If not 2026, show Day 1 as demo
+            currentViewIndex = 0;
+        }
+
+        renderTable();
+        updateAll();
+        setInterval(runTimer, 1000);
+    }
+
+    // Change Day via Buttons
+    function changeDay(dir) {
+        currentViewIndex += dir;
+        if(currentViewIndex < 0) currentViewIndex = 0;
+        if(currentViewIndex > 29) currentViewIndex = 29;
+        updateAll();
+    }
+
+    // Update Main UI
+    function updateAll() {
+        const dist = document.getElementById('distSelect').value;
+        const off = offsets[dist];
+        const data = rData[currentViewIndex];
+        
+        // Calculate Times
+        let s24 = adjTime(data.s, off.s);
+        let i24 = adjTime(data.i, off.i);
+        
+        // Update Cards
+        document.getElementById('dayNum').innerText = toBn(data.d);
+        document.getElementById('dayDate').innerText = toBn(data.dt) + ", " + toBnDay(data.day);
+        document.getElementById('tSehri').innerText = toBn(fmt12(s24));
+        document.getElementById('tIftar').innerText = toBn(fmt12(i24));
+        
+        // Update Namaz
+        document.getElementById('nFajr').innerText = toBn(fmt12(s24)); // Fajr ~ Sehri end
+        document.getElementById('nDhuhr').innerText = toBn(fmt12(adjTime("12:05", Math.round(off.s/2))));
+        document.getElementById('nAsr').innerText = toBn(fmt12(adjTime("16:15", Math.round(off.s/2))));
+        document.getElementById('nMaghrib').innerText = toBn(fmt12(i24)); // Maghrib ~ Iftar
+        document.getElementById('nIsha').innerText = toBn(fmt12(adjTime(i24, 80)));
+
+        // Set Timer Target
+        setTimerTarget(s24, i24);
+        
+        // Highlight Table
+        highlightRow(currentViewIndex);
+    }
+
+    // Timer Logic
+    function setTimerTarget(sTime, iTime) {
+        const now = new Date();
+        let [sh, sm] = sTime.split(':');
+        let sDate = new Date(); sDate.setHours(sh, sm, 0, 0);
+        
+        let [ih, im] = iTime.split(':');
+        let iDate = new Date(); iDate.setHours(ih, im, 0, 0);
+
+        if (now < sDate) {
+            timerTarget = sDate;
+            document.getElementById('timerLabel').innerText = "সেহরি বাকি";
+        } else if (now < iDate) {
+            timerTarget = iDate;
+            document.getElementById('timerLabel').innerText = "ইফতার বাকি";
+        } else {
+            // After Iftar, set to next day Sehri
+            let nextS = new Date(sDate);
+            nextS.setDate(nextS.getDate() + 1);
+            timerTarget = nextS;
+            document.getElementById('timerLabel').innerText = "পরবর্তী সেহরি বাকি";
+        }
+    }
+
+    function runTimer() {
+        const now = new Date();
+        const diff = timerTarget - now;
+
+        if (diff <= 0) {
+            document.getElementById('timerDisplay').innerHTML = "সময় শুরু!";
+            // Re-evaluate target immediately
+            updateAll(); 
+            return;
+        }
+
+        const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+        const m = Math.floor((diff % (1000*60*60)) / (1000*60));
+        const s = Math.floor((diff % (1000*60)) / 1000);
+
+        document.getElementById('timerDisplay').innerHTML = 
+            `${h}<span>ঘ:</span>${m}<span>মি:</span>${s}<span>সে:</span>`;
+    }
+
+    // Table Rendering
+    function renderTable() {
+        const tbody = document.querySelector("#calTable tbody");
+        const dist = document.getElementById('distSelect').value;
+        const off = offsets[dist];
+        
+        let html = '';
+        rData.forEach((item, idx) => {
+            let s = adjTime(item.s, off.s);
+            let i = adjTime(item.i, off.i);
+            html += `
+                <tr id="row-${idx}">
+                    <td>${toBn(item.d)}</td>
+                    <td>${toBn(item.dt)}</td>
+                    <td>${toBnDay(item.day)}</td>
+                    <td>${toBn(fmt12(s))}</td>
+                    <td>${toBn(fmt12(i))}</td>
+                </tr>
+            `;
+        });
+        tbody.innerHTML = html;
+    }
+
+    function highlightRow(idx) {
+        // Remove previous highlight
+        document.querySelectorAll('#calTable tr').forEach(r => r.classList.remove('active-day'));
+        // Add new highlight
+        const row = document.getElementById(`row-${idx}`);
+        if(row) row.classList.add('active-day');
+    }
+
+    // Init on load
+    init();
+
 </script>
-
 </body>
 </html>
-
-
